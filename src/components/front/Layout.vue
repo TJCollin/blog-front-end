@@ -8,11 +8,11 @@
               <router-link to="/">首页</router-link>
             </li>
             <li class="active">
-              <router-link to="/article">文章</router-link>
+              <router-link to="article">文章</router-link>
             </li>
             <li><a href="">项目</a></li>
             <li>
-              <router-link to="/about">关于</router-link>
+              <router-link to="about">关于</router-link>
             </li>
           </ul>
         </div>
@@ -47,14 +47,12 @@
 </template>
 
 <script>
-  import Article from '@/components/pages/Article'
   export default {
     name: "Layout",
     mounted() {
       this.bgCanvas()
     },
     components: {
-      'v-article': Article
     },
     methods: {
       bgCanvas() {

@@ -1,36 +1,44 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
-import HelloWorld from '@/components/HelloWorld'
-import Layout from '@/components/Layout'
-import Article from '@/components/pages/Article'
-import About from '@/components/pages/About'
+import Main from '@/components/front/Main'
+import front from './front'
+import admin from './admin'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
+      name: 'Main',
       component: Main
     },
-    {
-      path: '/pages',
-      name: 'Layout',
-      component: Layout,
-      children: [
-        {
-          path: '/article',
-          name: 'Article',
-          component: Article
-        },
-        {
-          path: '/about',
-          name: 'About',
-          component: About
-        }
-      ]
-    }
+    ...front,
+    ...admin
   ]
+  // routes: [
+  //   {
+  //     path: '/',
+  //     name: 'Main',
+  //     component: Main
+  //   },
+  //   {
+  //     path: '/pages',
+  //     name: 'Layout',
+  //     component: Layout,
+  //     children: [
+  //       {
+  //         path: '/article',
+  //         name: 'Article',
+  //         component: Article
+  //       },
+  //       {
+  //         path: '/about',
+  //         name: 'About',
+  //         component: About
+  //       }
+  //     ]
+  //   }
+  // ]
 })

@@ -23,7 +23,7 @@
       </div>
       <div class="user-image">
         <div class="image">
-          <img src="static/images/avatar.jpg" alt="collin">
+          <img src="/static/images/avatar.jpg" alt="collin">
         </div>
         <p class="name">Collin</p>
         <div class="email">
