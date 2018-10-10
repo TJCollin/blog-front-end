@@ -33,13 +33,13 @@
           <div class="link">
             <router-link to="">首页</router-link>
 
-              <router-link to="/article">文章</router-link>
+              <router-link :to="{name: 'Article'}">文章</router-link>
           </div>
         </div>
         <div class="main-nav">
           <div class="link">
-            <router-link to="">项目</router-link>
-            <router-link to="">关于</router-link>
+            <router-link :to="{name: 'Project'}">项目</router-link>
+            <router-link :to="{name: 'About'}">关于</router-link>
           </div>
         </div>
 

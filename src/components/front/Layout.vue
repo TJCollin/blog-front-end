@@ -8,11 +8,11 @@
               <router-link to="/">首页</router-link>
             </li>
             <li class="active">
-              <router-link to="article">文章</router-link>
+              <router-link :to="{name: 'Article'}">文章</router-link>
             </li>
-            <li><a href="">项目</a></li>
+            <li><router-link :to="{name: 'Project'}">项目</router-link></li>
             <li>
-              <router-link to="about">关于</router-link>
+              <router-link :to="{name: 'About'}">关于</router-link>
             </li>
           </ul>
         </div>
