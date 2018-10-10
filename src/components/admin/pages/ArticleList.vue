@@ -1,32 +1,65 @@
 <template>
   <div class="list-box">
+    <div class="search">
+      <el-input placeholder="搜索文章标题" clearable="true" v-model="input5" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
     <el-table
       :data="tableData4"
       style="width: 100%;height: 100%"
 
       min-height="250">
       <el-table-column
-        fixed
         prop="date"
-        label="日期"
-        width="150">
+        label="标题">
+        <template slot-scope="scope">
+          <router-link to="">
+            {{ scope.row.date}}
+          </router-link>
+
+        </template>
       </el-table-column>
       <el-table-column
         prop="name"
-        label="姓名">
+        sortable="true"
+        label="日期">
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址">
+        prop="aaddress"
+        label="标签"
+        :filters="[{ text: 'Javascript', value: 'Javascript' }, { text: 'Java', value: 'java' }]"
+        :filter-method="filterTag"
+        filter-placement="bottom-end">
+        <template slot-scope="scope">
+          <el-tag
+            disable-transitions
+            type="success"
+          >
+            Javascript
+            <!--{{scope.row.tag}}-->
+          </el-tag>
+            <!--:type="scope.row.tag === '家' ? 'primary' : 'success'"-->
+
+        </template>
+      >
       </el-table-column>
+
       <el-table-column
-        prop="zip"
-        label="邮编">
-      </el-table-column>
-      <el-table-column
-        fixed="right"
         label="操作">
         <template slot-scope="scope">
+          <el-button
+            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            type="text"
+            size="small">
+            查看
+          </el-button>
+          <el-button
+            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            type="text"
+            size="small">
+            修改
+          </el-button>
           <el-button
             @click.native.prevent="deleteRow(scope.$index, tableData4)"
             type="text"
@@ -118,7 +151,10 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      }
+      },
+      filterTag(value, row) {
+        return row.tag === value;
+      },
     }
   }
 </script>
@@ -130,8 +166,13 @@
     height 100%;
     background-color: #fff;
     padding 20px 20px 0 20px
+    .search
+      width 100%
+      height 60px
     .el-table
       flex 1
+      a
+        text-decoration none
     .table-pagination
       align-self flex-end
 
