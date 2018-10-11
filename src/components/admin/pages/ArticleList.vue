@@ -1,7 +1,7 @@
 <template>
   <div class="list-box">
     <div class="search">
-      <el-input placeholder="搜索文章标题" clearable="true" v-model="input5" class="input-with-select">
+      <el-input placeholder="搜索文章标题" clearable v-model="input5" class="input-with-select">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </div>
@@ -88,6 +88,7 @@
     name: "ArticleList",
     data() {
       return {
+        input5: '',
         currentPage4: 4,
         tableData4: [
           {
@@ -163,9 +164,7 @@
   .list-box
     display flex
     flex-direction column
-    height 100%;
-    background-color: #fff;
-    padding 20px 20px 0 20px
+
     .search
       width 100%
       height 60px

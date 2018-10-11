@@ -1,6 +1,7 @@
 import AdminLogin from '@/components/admin/AdminLogin'
 import AdminLayout from '@/components/admin/AdminLayout'
 import ArticleList from '@/components/admin/pages/ArticleList'
+import ArticleInfo from '@/components/admin/pages/ArticleInfo'
 
 export default [
   {
@@ -13,9 +14,14 @@ export default [
     component: AdminLayout,
     children: [
       {
-        path: '/admin',
+        path: '',
         name: 'ArticleList',
         component: ArticleList
+      },
+      {
+        path: 'editArticle',
+        name: 'ArticleInfo',
+        component: ArticleInfo
       }
     ]
   }

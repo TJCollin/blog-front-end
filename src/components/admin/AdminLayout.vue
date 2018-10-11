@@ -5,7 +5,10 @@
     </el-aside>
     <el-container>
       <el-main>
-        <router-view></router-view>
+        <div class="main-content">
+          <router-view></router-view>
+        </div>
+
       </el-main>
       <el-footer>
         <div class="footer-box">
@@ -46,6 +49,10 @@
     height 900px
     background-color: #f0f2f5;
     padding 10px
+    .main-content
+      height 100%;
+      background-color: #fff;
+      padding 20px
   .el-footer
     background-color: #f0f2f5;
     padding 0 10px
