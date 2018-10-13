@@ -1,9 +1,7 @@
 <template>
   <div class="list-box">
     <div class="search">
-      <el-input placeholder="搜索文章标题" clearable v-model="input5" class="input-with-select">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
+      <el-button @click="dialogFormVisible = true">新增标签</el-button>
     </div>
     <el-table
       :data="tableData4"
@@ -12,7 +10,7 @@
       min-height="250">
       <el-table-column
         prop="date"
-        label="标题">
+        label="标签名">
         <template slot-scope="scope">
           <router-link to="">
             {{ scope.row.date}}
@@ -22,27 +20,7 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        sortable="true"
-        label="日期">
-      </el-table-column>
-      <el-table-column
-        prop="aaddress"
-        label="标签"
-        :filters="[{ text: 'Javascript', value: 'Javascript' }, { text: 'Java', value: 'java' }]"
-        :filter-method="filterTag"
-        filter-placement="bottom-end">
-        <template slot-scope="scope">
-          <el-tag
-            disable-transitions
-            type="success"
-          >
-            Javascript
-            <!--{{scope.row.tag}}-->
-          </el-tag>
-            <!--:type="scope.row.tag === '家' ? 'primary' : 'success'"-->
-
-        </template>
-      >
+        label="描述">
       </el-table-column>
 
       <el-table-column
@@ -74,14 +52,41 @@
         :total="400">
       </el-pagination>
     </div>
+    <el-dialog title="新增标签" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="标签名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="标签描述" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   export default {
-    name: "ArticleList",
+    name: "TagList",
     data() {
       return {
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '120px',
+
         input5: '',
         currentPage4: 4,
         tableData4: [
@@ -160,11 +165,12 @@
     flex-direction column
 
     .search
-      width 100%
       height 60px
+      align-self flex-end
+
     .el-table
-      border-top 2px solid #eee
       flex 1
+      border-top 2px solid #eee
       a
         text-decoration none
     .table-pagination

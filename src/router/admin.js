@@ -2,6 +2,8 @@ import AdminLogin from '@/components/admin/AdminLogin'
 import AdminLayout from '@/components/admin/AdminLayout'
 import ArticleList from '@/components/admin/pages/ArticleList'
 import ArticleInfo from '@/components/admin/pages/ArticleInfo'
+import ProjectList from '@/components/admin/pages/ProjectList'
+import TagList from '@/components/admin/pages/TagList'
 
 export default [
   {
@@ -22,7 +24,18 @@ export default [
         path: 'editArticle',
         name: 'ArticleInfo',
         component: ArticleInfo
+      },
+      {
+        path: 'ProjectList',
+        name: 'ProjectList',
+        component: ProjectList
+      },
+      {
+        path: 'TagList',
+        name: 'TagList',
+        component: TagList
       }
+
     ]
   }
 ]
