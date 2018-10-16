@@ -1,7 +1,10 @@
 <template>
   <div class="sidebar">
     <div class="avatar">
-      <img src="/static/images/avatar.jpg" alt="collin">
+      <div class="image"><img src="/static/images/avatar.jpg" alt="collin"></div>
+      <p class="account">
+        <router-link :to="{name: 'AdminLogin'}">管理员</router-link>
+      </p>
     </div>
     <el-row class="tac">
       <el-col :span="12">
@@ -68,24 +71,28 @@
     background-color: #fff;
     width 100%
     height 100%
-    .avatar {
+    .avatar
       border-right: solid 1px #e6e6e6
       display: block;
-      padding: 20px 0;
-      &:hover img {
-        transform: rotate(360deg);
-      }
-
-      img {
-        display block;
-        margin 0 auto;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: #fff;
-        transition: all 1s;
-      }
-    }
+      padding: 20px 0 0;
+      .image
+        padding-bottom 10px
+        &:hover img
+          transform: rotate(360deg);
+        img
+          display block;
+          margin 0 auto;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background-color: #fff;
+          transition: all 1s
+      .account
+        line-height 30px
+        text-align center
+        a
+          &:hover
+            color #409EFF
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;

@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <div class="editor">
-      <m-editor style="height: 100%"></m-editor>
+      <m-editor style="height: 100%" @save="saveArticle"></m-editor>
     </div>
     <div class="editor-footer">
       <el-button type="primary">提交</el-button>
@@ -84,6 +84,9 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      saveArticle(value, render) {
+        console.log('save',value,render)
       }
     }
   }
