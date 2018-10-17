@@ -1,6 +1,6 @@
 <template>
   <div class="list-box">
-    <div class="search">
+    <div class="top-section">
       <el-button @click="dialogFormVisible = true">新增标签</el-button>
     </div>
     <el-table
@@ -52,18 +52,18 @@
         :total="400">
       </el-pagination>
     </div>
-    <el-dialog title="新增标签" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="标签名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+    <el-dialog title="新增标签"  :visible.sync="dialogFormVisible" >
+      <el-form ref="tagForm" :model="form" label-position="left" label-width="80px">
+        <el-form-item label="标签名称" prop="tagName">
+          <el-input v-model="form.tagName" ></el-input>
         </el-form-item>
-        <el-form-item label="标签描述" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-form-item label="标签描述" prop="descriptios">
+          <el-input v-model="form.descriptios"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -76,14 +76,12 @@
       return {
         dialogFormVisible: false,
         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          tagName: '',
+          descriptios: ''
+        },
+        rules: {
+          tagName: [{required: true, message: '请输入标签名称', trigger: 'blur'}],
+          descriptios: [{required: true, message: '请输入标签描述', trigger: 'blur'}]
         },
         formLabelWidth: '120px',
 
@@ -143,6 +141,34 @@
       }
     },
     methods: {
+      submitForm () {
+        let self = this
+        self.$refs.tagForm.validate((valid) => {
+          if(valid) {
+            self.$axios.post('tag/saveTag',{
+              params: {...self.form},
+              // validateStatus: function validateStatus(status) {
+              //   return status >= 200 && status < 500;
+              // }
+            }).then(
+              (res) => {
+                console.log('su')
+                console.log(res.data.bean)
+                console.log(res)
+              },
+              // (err) => {
+              //   console.log(err)
+              //   self.$message.error("保存错误")
+              // }
+            ).catch((e) => {
+                console.log(e)
+                self.$message.error("保存错误")
+            })
+          }else {
+            self.$message.error("信息填写不完整哟~")
+          }
+        })
+      },
       deleteRow(index, rows) {
         rows.splice(index, 1);
       },
@@ -164,7 +190,7 @@
     display flex
     flex-direction column
 
-    .search
+    .top-section
       height 60px
       align-self flex-end
 

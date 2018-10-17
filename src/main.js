@@ -8,7 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import Qs from 'qs'
 
-axios.defaults.baseURL = 'http://localhost:3000/api'
+axios.defaults.baseURL = 'http://localhost:3000/api/'
+axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = Qs
 Vue.config.productionTip = false

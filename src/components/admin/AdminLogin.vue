@@ -38,12 +38,14 @@
     methods: {
       login() {
         let self = this
-        self.$axios.post('/user/login',{
+        self.$axios.post('user/login',{
           "username": self.loginForm.name,
           "password": self.loginForm.password
         }).then(
           (res) => {
             if(res.data.code) {
+              console.log(res.data)
+              self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
               self.$router.push({name: 'ArticleList'})
             }else {
               this.$message.error(res.data.message)
