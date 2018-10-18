@@ -52,7 +52,7 @@
         :total="400">
       </el-pagination>
     </div>
-    <el-dialog title="新增标签"  :visible.sync="dialogFormVisible" >
+    <el-dialog title="新增标签"  :visible.sync="dialogFormVisible">
       <el-form ref="tagForm" :model="form" label-position="left" label-width="80px">
         <el-form-item label="标签名称" prop="tagName">
           <el-input v-model="form.tagName" ></el-input>
@@ -151,6 +151,7 @@
               (res) => {
                 if (res.data.code) {
                   self.$message.success("保存标签成功！")
+                  self.$refs.tagForm.resetFields()
                   self.dialogFormVisible = false
                 } else {
                   self.$message.error(res.data.message)
