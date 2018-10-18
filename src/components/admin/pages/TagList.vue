@@ -57,8 +57,8 @@
         <el-form-item label="标签名称" prop="tagName">
           <el-input v-model="form.tagName" ></el-input>
         </el-form-item>
-        <el-form-item label="标签描述" prop="descriptios">
-          <el-input v-model="form.descriptios"></el-input>
+        <el-form-item label="标签描述" prop="description">
+          <el-input v-model="form.description"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -77,11 +77,11 @@
         dialogFormVisible: false,
         form: {
           tagName: '',
-          descriptios: ''
+          description: ''
         },
         rules: {
           tagName: [{required: true, message: '请输入标签名称', trigger: 'blur'}],
-          descriptios: [{required: true, message: '请输入标签描述', trigger: 'blur'}]
+          description: [{required: true, message: '请输入标签描述', trigger: 'blur'}]
         },
         formLabelWidth: '120px',
 
@@ -146,23 +146,20 @@
         self.$refs.tagForm.validate((valid) => {
           if(valid) {
             self.$axios.post('tag/saveTag',{
-              params: {...self.form},
-              // validateStatus: function validateStatus(status) {
-              //   return status >= 200 && status < 500;
-              // }
+              data: {...self.form}
             }).then(
               (res) => {
-                console.log('su')
-                console.log(res.data.bean)
-                console.log(res)
+                if (res.data.code) {
+                  self.$message.success("保存标签成功！")
+                  self.dialogFormVisible = false
+                } else {
+                  self.$message.error(res.data.message)
+                  console.log(res.data.err)
+                }
               },
-              // (err) => {
-              //   console.log(err)
-              //   self.$message.error("保存错误")
-              // }
             ).catch((e) => {
                 console.log(e)
-                self.$message.error("保存错误")
+                // self.$message.error(e)
             })
           }else {
             self.$message.error("信息填写不完整哟~")
