@@ -39,8 +39,10 @@
       login() {
         let self = this
         self.$axios.post('user/login',{
-          "username": self.loginForm.name,
-          "password": self.loginForm.password
+          data: {
+            "username": self.loginForm.name,
+            "password": self.loginForm.password
+          }
         }).then(
           (res) => {
             if(res.data.code) {

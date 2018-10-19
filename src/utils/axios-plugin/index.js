@@ -21,22 +21,27 @@ const Axios = axios.create({
 
 //请求拦截器
 Axios.interceptors.request.use(
-  (config) => {
+  async (config) => {
     let url_all = baseConfig.SERVER_URL + config.url
     let url_all_date = baseConfig.SERVER_URL + config.url + new Date().getTime()
-    let key
-    for (let item of Object.keys(promiseList)) {
-      if (item.indexOf(url_all)) {
-        key = item
-      }
-    }
+    let  key = checkUrl(url_all)
     if (key) {
       //运行上一次的取消函数
-      promiseList[key]('重复请求，操作取消')
+      promiseList[url_all_date] = async () => {
+        await cancel(url_all_date)
+        console.log('cancel:'+url_all_date)
+      }
+      let consodata = '重复请求，操作取消' + key
+      await promiseList[key](consodata)
+      promiseList[key] = null
+      delete promiseList[key]
+      console.log(promiseList)
       //存入这次的取消函数
-      promiseList[url_all_date] = cancel
     } else {
-      promiseList[url_all_date] = cancel
+      promiseList[url_all_date] = async () => {
+        await cancel(url_all_date)
+        console.log('cancel:',url_all_date)
+      }
     }
 
     if (
@@ -57,16 +62,10 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   response => {
     //拿到返回数据后清除取消函数
-    // let index = Object.keys(promiseList).indexOf(response.config.url)
-    let key
-    for (let item of Object.keys(promiseList)) {
-      if (item.indexOf(response.config.url)) {
-        key = item
-      }
-    }
+    let key = checkUrl(response.config.url)
     if (key) {
-      // let key = Object.keys(promiseList)[index]
       promiseList[key] = null
+      delete promiseList[key]
     }
     console.log('resp', response)
     return response
@@ -74,15 +73,10 @@ Axios.interceptors.response.use(
     if (err && err.response) {
       console.log(err.response.data)
       let url_all = err.config.url
-      let key
-      for (let item of Object.keys(promiseList)) {
-        if (item.indexOf(url_all)) {
-          key = item
-        }
-      }
+      let key = checkUrl(url_all)
       if (key) {
-        // let key = Object.keys(promiseList)[index]
-        promiseList[key] = null
+        delete promiseList[key]
+
       }
       switch (err.response.status) {
         case 400:
@@ -126,19 +120,16 @@ Axios.interceptors.response.use(
       }
     } else {
       if(err.config) {
-        let key
-        for (let item of Object.keys(promiseList)) {
-          if (item.indexOf(err.config.url)) {
-            key = item
-          }
-        }
+        let key = checkUrl(err.config.url)
         if (key) {
-          promiseList[key] = null
+          delete promiseList[key]
+
         }
         err.message = "连接到服务器失败"
       }
       else {
-        console.log('hh')
+        //暂时只遇到重复请求时才没有err.config
+        console.log('重复请求')
       }
     }
 
@@ -146,6 +137,15 @@ Axios.interceptors.response.use(
     Message.error(err.message)
     return Promise.reject(err)
   })
+
+const checkUrl = (url) => {
+  for (let item of Object.keys(promiseList)) {
+    if (item.indexOf(url) >= 0) {
+      return item
+    }
+  }
+  return null
+}
 
 export default {
   install: (Vue, Option) => {
