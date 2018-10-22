@@ -6,27 +6,27 @@
       </el-input>
     </div>
     <el-table
-      :data="tableData4"
+      :data="articleList"
       style="width: 100%;height: 100%"
 
       min-height="250">
       <el-table-column
-        prop="date"
+        prop="title"
         label="标题">
         <template slot-scope="scope">
           <router-link to="">
-            {{ scope.row.date}}
+            {{ scope.row.title}}
           </router-link>
 
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="createAt"
         sortable="true"
         label="日期">
       </el-table-column>
       <el-table-column
-        prop="aaddress"
+        prop="tags"
         label="标签"
         :filters="[{ text: 'Javascript', value: 'Javascript' }, { text: 'Java', value: 'java' }]"
         :filter-method="filterTag"
@@ -49,13 +49,13 @@
         label="操作">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="deleteRow(scope.$index, articleList)"
             type="text"
             size="small">
             修改
           </el-button>
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="deleteRow(scope.$index, articleList)"
             type="text"
             size="small">
             移除
@@ -67,7 +67,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="currentPage"
         :page-sizes="[100, 200, 300, 400]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -83,59 +83,25 @@
     data() {
       return {
         input5: '',
-        currentPage4: 4,
-        tableData4: [
-          {
-            date: '2016-05-03',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-08',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-06',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-07',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }]
+        currentPage: 1,
+        articleList: []
       }
+    },
+    created() {
+      let self = this
+      self.$axios._get('article/article_list',{page: this.currentPage}).then(
+        (res) => {
+          if (res.data.code) {
+            self.articleList = res.data.result.res_limit
+          } else {
+            self.$message.error(res.data.message)
+          }
+        }
+      ).catch(
+        (e) => {
+          console.log(e)
+        }
+      )
     },
     methods: {
       deleteRow(index, rows) {

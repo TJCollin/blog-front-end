@@ -1,85 +1,81 @@
 <template>
   <div class="main">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" label-position="left">
-      <el-form-item prop="name">
-        <el-input v-model="ruleForm.name" placeholder="请输入文章标题"></el-input>
+    <el-form :model="form" :rules="rules" ref="articleForm" class="demo-form" label-position="left">
+      <el-form-item prop="title">
+        <el-input v-model="form.title" placeholder="请输入文章标题"></el-input>
       </el-form-item>
-      <el-form-item  prop="region">
-        <el-select style="width: 100%" v-model="ruleForm.region" multiple placeholder="请选择活动标签">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+      <el-form-item prop="tags">
+        <el-select style="width: 100%" v-model="form.tags" multiple placeholder="请选择文章标签">
+          <el-option  v-for="tag in tagList" :key="tag._id" :label="tag.tagName" :value="tag._id"></el-option>
+          <!--<el-option label="区域二" value="beijing"></el-option>-->
         </el-select>
       </el-form-item>
 
-      <el-form-item prop="desc">
-        <el-input placeholder="请输入文章摘要" type="textarea" v-model="ruleForm.desc"></el-input>
+      <el-form-item prop="abstract">
+        <el-input placeholder="请输入文章摘要" type="textarea" v-model="form.abstract"></el-input>
       </el-form-item>
     </el-form>
     <div class="editor">
-      <m-editor ref="editor" @imgAdd="imgAdd" style="height: 100%" @save="saveArticle"></m-editor>
+      <m-editor ref="editor" v-model="form.content" @imgAdd="imgAdd" style="height: 100%" @save="saveArticle"></m-editor>
     </div>
     <div class="editor-footer">
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="submitForm">提交</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import { mavonEditor } from 'mavon-editor'
+  import {mavonEditor} from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
+
   export default {
     name: "ArticleInfo",
     data() {
       return {
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+        tagList: [],
+        form: {
+          title: '',
+          content: '',
+          tags: [],
+          abstract: ''
         },
         rules: {
-          name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          title: [
+            {required: true, message: '请输入文章标题', trigger: 'blur'},
           ],
-          region: [
-            {required: true, message: '请选择活动区域', trigger: 'change'}
+          tags: [
+            {required: true, message: '请选择文章标题', trigger: 'blur'}
           ],
-          date1: [
-            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          date2: [
-            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-          ],
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-          ],
-          resource: [
-            {required: true, message: '请选择活动资源', trigger: 'change'}
-          ],
-          desc: [
+          abstract: [
             {required: true, message: '请填写活动形式', trigger: 'blur'}
           ]
         }
       };
     },
+    created() {
+      this.$axios._get('tag/tag_list').then(
+        (res) => {
+          if (res.data.code) {
+            this.tagList = res.data.result.res_limit
+          }
+        }
+      ).catch(
+        (e) => {
+          console.log(e)
+        })
+    },
     components: {
       'm-editor': mavonEditor
-      // or 'mavon-editor': mavonEditor
     },
     methods: {
       imgAdd(pos, $file) {
         let formData = new FormData()
-        formData.append('file',$file)
+        formData.append('file', $file)
         let config = {headers: {"Content-Type": "multipart/form-data"}}
-        this.$axios._post('img',formData).then(
+        this.$axios._post('img', formData).then(
           (res) => {
-            let url ='http://localhost:3000/images/' + res.data.result.filename
-            this.$refs.editor.$img2Url(pos,url)
+            let url = 'http://localhost:3000/images/' + res.data.result.filename
+            this.$refs.editor.$img2Url(pos, url)
             console.log(res)
           }
         ).catch(
@@ -89,21 +85,32 @@
         )
 
       },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+      submitForm() {
+        let self = this
+        self.$refs.articleForm.validate((valid) => {
           if (valid) {
-            alert('submit!');
+            self.$axios._post('article/article',self.form).then(
+              (res) => {
+                if (res.data.code) {
+                  self.$message.success("文章保存成功")
+                } else {
+                  self.$message.error("文章保存失败")
+                }
+              }
+            ).catch(e => {
+              console.log(e)
+            })
           } else {
-            this.$message.error("必要信息未填写完整！")
+            self.$message.error("必要信息未填写完整！")
             return false;
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      resetForm() {
+        this.$refs.editor.resetFields();
       },
       saveArticle(value, render) {
-        console.log('save',value,render)
+        console.log('save', value, render)
       }
     }
   }
@@ -121,6 +128,9 @@
       list-style disc
     .editor
       flex 1
+      height 700px
+      display flex
+
     .editor-footer
       width fit-content
       align-self flex-end
