@@ -9,9 +9,8 @@ html {
   color: #555;
   letter-spacing: .5px;
   font-family: Futura, -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
-	-webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
 }
-
 
 *,
 *:before,
@@ -20,7 +19,6 @@ html {
   margin: 0;
   padding: 0;
 }
-
 
 /** 清除内外边距 **/
 
@@ -35,7 +33,7 @@ hr,
 p,
 blockquote,
 
-/* structural elements 结构元素 */
+  /* structural elements 结构元素 */
 
 dl,
 dt,
@@ -44,11 +42,11 @@ ul,
 ol,
 li,
 
-/* list elements 列表元素 */
+  /* list elements 列表元素 */
 
 pre,
 
-/* text formatting elements 文本格式元素 */
+  /* text formatting elements 文本格式元素 */
 
 form,
 fieldset,
@@ -57,17 +55,16 @@ button,
 input,
 textarea,
 
-/* form elements 表单元素 */
+  /* form elements 表单元素 */
 
 th,
 td
-/* table elements 表格元素 */
+  /* table elements 表格元素 */
 
 {
   margin: 0;
   padding: 0;
 }
-
 
 /** 设置默认字体 **/
 
@@ -75,7 +72,7 @@ button,
 input,
 select,
 textarea
-/* for ie */
+  /* for ie */
 
 {
   font: 14px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
@@ -98,7 +95,6 @@ var {
   font-style: normal;
 }
 
-
 /* 将斜体扶正 */
 
 code,
@@ -108,16 +104,13 @@ samp {
   font-family: courier new, courier, monospace;
 }
 
-
 /* 统一等宽字体 */
 
 small {
   font-size: 12px;
 }
 
-
 /* 小于 12px 的中文很难阅读，让 small 正常化 */
-
 
 /** 重置列表元素 **/
 
@@ -125,7 +118,6 @@ ul,
 ol {
   list-style: none;
 }
-
 
 /** 重置文本格式元素 **/
 
@@ -142,13 +134,11 @@ strong {
   font-weight: normal;
 }
 
-
 /** 重置表单元素 **/
 
 legend {
   color: #000;
 }
-
 
 /* for ie6 */
 
@@ -156,7 +146,6 @@ fieldset,
 img {
   border: 0;
 }
-
 
 /* img 搭车：让链接里的 img 无边框 */
 
@@ -167,12 +156,9 @@ textarea {
   font-size: 100%;
 }
 
-
 /* 使得表单元素在 ie 下能继承字体大小 */
 
-
 /* 注：optgroup 无法扶正 */
-
 
 /** 重置表格元素 **/
 
@@ -194,11 +180,11 @@ i {
 
 @font-face {
   font-family: 'iconfont';  /* project id 849490 */
-  src: url('//at.alicdn.com/t/font_849490_wi1zh9dhyr.eot');
-  src: url('//at.alicdn.com/t/font_849490_wi1zh9dhyr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_849490_wi1zh9dhyr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_849490_wi1zh9dhyr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_849490_wi1zh9dhyr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_849490_46ll9wbxu6a.eot');
+  src: url('//at.alicdn.com/t/font_849490_46ll9wbxu6a.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_849490_46ll9wbxu6a.woff') format('woff'),
+  url('//at.alicdn.com/t/font_849490_46ll9wbxu6a.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_849490_46ll9wbxu6a.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -240,6 +226,26 @@ i {
 
 .icon-csdn::before {
   content: "\e600"
+}
+
+.icon-typescript::before {
+  content: "\e747"
+}
+
+.icon-react::before {
+  content: "\e972"
+}
+
+.icon-vue::before {
+  content: "\f25f"
+}
+
+.icon-angular::before {
+  content: "\e605"
+}
+
+.icon-node::before {
+  content: "\e602"
 }
 
 .icon-dot::before {
@@ -314,10 +320,6 @@ i {
   content: "\e64a";
 }
 
-.icon-daima:before {
-  content: "\e605";
-}
-
 .icon-tupian:before {
   content: "\e626";
 }
@@ -327,7 +329,7 @@ i {
 }
 
 /*.icon-iconsf-copy:before {*/
-  /*content: "\e610";*/
+/*content: "\e610";*/
 /*}*/
 .icon-search:before {
   content: "\e610";
@@ -347,10 +349,6 @@ i {
 
 .icon-bianji1:before {
   content: "\e654";
-}
-
-.icon-nodejs:before {
-  content: "\e989";
 }
 
 .icon-dingwei1:before {
@@ -375,10 +373,6 @@ i {
 
 .icon-dingwei:before {
   content: "\e662";
-}
-
-.icon-qq:before {
-  content: "\e602";
 }
 
 .icon-sanjiaotop:before {
@@ -593,18 +587,8 @@ i {
   content: "\e60f";
 }
 
-.icon-angular:before {
-  content: "\e616";
-}
-
 .icon-nginx:before {
   content: "\e63c";
 }
 
-.icon-vuejs:before {
-  content: "\e641";
-}
 
-.icon-react:before {
-  content: "\e64c";
-}

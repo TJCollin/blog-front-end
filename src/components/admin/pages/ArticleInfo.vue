@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <div class="editor">
-      <m-editor style="height: 100%" @save="saveArticle"></m-editor>
+      <m-editor ref="editor" @imgAdd="imgAdd" style="height: 100%" @save="saveArticle"></m-editor>
     </div>
     <div class="editor-footer">
       <el-button type="primary">提交</el-button>
@@ -72,12 +72,29 @@
       // or 'mavon-editor': mavonEditor
     },
     methods: {
+      imgAdd(pos, $file) {
+        let formData = new FormData()
+        formData.append('file',$file)
+        let config = {headers: {"Content-Type": "multipart/form-data"}}
+        this.$axios._post('img',formData).then(
+          (res) => {
+            let url ='http://localhost:3000/images/' + res.data.result.filename
+            this.$refs.editor.$img2Url(pos,url)
+            console.log(res)
+          }
+        ).catch(
+          (e) => {
+            console.log(e)
+          }
+        )
+
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
           } else {
-            console.log('error submit!!');
+            this.$message.error("必要信息未填写完整！")
             return false;
           }
         });

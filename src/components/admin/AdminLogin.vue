@@ -38,25 +38,32 @@
     methods: {
       login() {
         let self = this
-        self.$axios.post('user/login',{
-          data: {
-            "username": self.loginForm.name,
-            "password": self.loginForm.password
+        self.refs.loginForm.validate((valid) => {
+          if (valid) {
+            self.$axios.post('user/login',{
+              data: {
+                "username": self.loginForm.name,
+                "password": self.loginForm.password
+              }
+            }).then(
+              (res) => {
+                if(res.data.code) {
+                  console.log(res.data)
+                  self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
+                  self.$router.push({name: 'ArticleList'})
+                }else {
+                  this.$message.error(res.data.message)
+                }
+              },
+              (err) => {
+                console.log(err)
+              }
+            )
+          } else {
+            self.$message.error("必要信息未填写完整！")
+            return false
           }
-        }).then(
-          (res) => {
-            if(res.data.code) {
-              console.log(res.data)
-              self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
-              self.$router.push({name: 'ArticleList'})
-            }else {
-              this.$message.error(res.data.message)
-            }
-          },
-          (err) => {
-            console.log(err)
-          }
-        )
+        })
 
 
       },

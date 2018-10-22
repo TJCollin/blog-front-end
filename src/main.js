@@ -16,6 +16,22 @@ Vue.use(AxiosPlugin)
 Vue.prototype.$qs = Qs
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
+Vue.directive('focus', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus()
+  },
+  update: function (el) {
+    // 聚焦元素
+    el.focus()
+  },
+  componentUpdated: function (el) {
+    // 聚焦元素
+    el.focus()
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

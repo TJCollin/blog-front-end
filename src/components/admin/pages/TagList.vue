@@ -1,25 +1,18 @@
 <template>
   <div class="list-box">
     <div class="top-section">
-      <el-button @click="dialogFormVisible = true">新增标签</el-button>
+      <el-button @click="addTag">新增标签</el-button>
     </div>
     <el-table
-      :data="tableData4"
+      :data="tagList"
       style="width: 100%;height: 100%"
-
-      min-height="250">
+      v-if="tagList">
       <el-table-column
-        prop="date"
+        prop="tagName"
         label="标签名">
-        <template slot-scope="scope">
-          <router-link to="">
-            {{ scope.row.date}}
-          </router-link>
-
-        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="description"
         label="描述">
       </el-table-column>
 
@@ -27,13 +20,13 @@
         label="操作">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="updateTag(scope.row.tagName, scope.row.description)"
             type="text"
             size="small">
             修改
           </el-button>
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="deleteTag(scope.row._id)"
             type="text"
             size="small">
             移除
@@ -43,19 +36,20 @@
     </el-table>
     <div class="table-pagination">
       <el-pagination
+        @prev-click="prevClick"
+        @next-click="nextClick"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="currentPage"
+        :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :total="totalTags">
       </el-pagination>
     </div>
-    <el-dialog title="新增标签"  :visible.sync="dialogFormVisible">
-      <el-form ref="tagForm" :model="form" label-position="left" label-width="80px">
+    <el-dialog title="新增标签" :visible.sync="dialogFormVisible">
+      <el-form ref="tagForm" :rules="rules" :model="form" label-position="left" label-width="80px" @keyup.enter.native="submitForm">
         <el-form-item label="标签名称" prop="tagName">
-          <el-input v-model="form.tagName" ></el-input>
+          <el-input v-model="form.tagName" ref="tagName"></el-input>
         </el-form-item>
         <el-form-item label="标签描述" prop="description">
           <el-input v-model="form.description"></el-input>
@@ -83,98 +77,105 @@
           tagName: [{required: true, message: '请输入标签名称', trigger: 'blur'}],
           description: [{required: true, message: '请输入标签描述', trigger: 'blur'}]
         },
-        formLabelWidth: '120px',
-
-        input5: '',
-        currentPage4: 4,
-        tableData4: [
-          {
-            date: '2016-05-03',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-02',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-08',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-06',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }, {
-            date: '2016-05-07',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
-          }]
+        currentPage: 1,
+        totalTags: 10,
+        tagList: []
       }
     },
+    created() {
+      this.getTagListByPage(this.currentPage)
+    },
     methods: {
-      submitForm () {
+      addTag() {
+        this.dialogFormVisible = true
+        this.$nextTick(()=> {
+          this.$refs.tagForm.resetFields()
+          this.$refs.tagName.focus()
+        })
+      },
+      submitForm() {
         let self = this
         self.$refs.tagForm.validate((valid) => {
-          if(valid) {
-            self.$axios.post('tag/saveTag',{
-              data: {...self.form}
+          if (valid) {
+            self.$axios._post('tag/tag', {
+              ...self.form
             }).then(
               (res) => {
                 if (res.data.code) {
                   self.$message.success("保存标签成功！")
                   self.$refs.tagForm.resetFields()
                   self.dialogFormVisible = false
+                  self.getTagListByPage(self.currentPage)
                 } else {
                   self.$message.error(res.data.message)
                   console.log(res.data.err)
                 }
               },
             ).catch((e) => {
-                console.log(e)
-                // self.$message.error(e)
+              console.log(e)
+              // self.$message.error(e)
             })
-          }else {
+          } else {
             self.$message.error("信息填写不完整哟~")
+            return false
           }
         })
       },
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
+      getTagListByPage(page) {
+        let self = this
+        self.$axios._get('tag/tag_list', {
+          page: page
+        }).then(
+          (res) => {
+            if (res.data.code) {
+
+              self.tagList = res.data.result.res_limit
+              self.totalTags = res.data.result.total
+            } else {
+              self.$message.error(res.data.message)
+            }
+          }
+        ).catch((e) => {
+            console.log(e)
+          }
+        )
+
+
+      },
+      deleteTag(id) {
+        let self = this
+        self.$axios._delete('tag/tag', {
+          tagId: id
+        }).then(
+          (res) => {
+            if (res.data.code) {
+              self.getTagListByPage(self.currentPage)
+            } else {
+              self.$message.error(res.data.message)
+            }
+          }
+        ).catch((err) => {
+          console.log(
+            err
+          )
+        })
+      },
+      updateTag(tagName, description) {
+        let self = this
+        self.form = {tagName,description}
+        self.dialogFormVisible = true
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        this.getTagListByPage(val)
+      },
+      prevClick() {
+        this.currentPage = this.currentPage --
+      },
+      nextClick() {
+        this.currentPage = this.currentPage ++
       },
       filterTag(value, row) {
         return row.tag === value;

@@ -46,7 +46,6 @@
     height 100%
 
   .el-main
-    height 900px
     background-color: #f0f2f5;
     padding 10px
     .main-content

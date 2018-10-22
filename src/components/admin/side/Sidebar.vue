@@ -9,33 +9,33 @@
     <el-row class="tac">
       <el-col :span="12">
         <el-menu
-          default-active="1-1"
+          :default-active="activePage"
           class="el-menu-vertical-demo"
           :default-openeds="openeds"
           router
           @open="handleOpen"
           @close="handleClose">
-          <el-submenu index="1">
+          <el-submenu index="article">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>文章管理</span>
             </template>
-            <el-menu-item index="1-1" :route="{name: 'ArticleList'}">文章列表</el-menu-item>
-            <el-menu-item index="1-2" :route="{name: 'ArticleInfo'}">添加文章</el-menu-item>
+            <el-menu-item index="/admin/articleList" :route="{name: 'ArticleList'}">文章列表</el-menu-item>
+            <el-menu-item index="/admin/editArticle" :route="{name: 'ArticleInfo'}">添加文章</el-menu-item>
           </el-submenu>
-          <el-submenu index="2">
+          <el-submenu index="tag">
             <template slot="title">
               <i class="el-icon-edit"></i>
               <span>标签管理</span>
             </template>
-            <el-menu-item index="2-1" :route="{name: 'TagList'}">标签列表</el-menu-item>
+            <el-menu-item index="/admin/tagList" :route="{name: 'TagList'}">标签列表</el-menu-item>
           </el-submenu>
-          <el-submenu index="3">
+          <el-submenu index="project">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>项目管理</span>
             </template>
-            <el-menu-item index="3-1" :route="{name: 'ProjectList'}">项目列表</el-menu-item>
+            <el-menu-item index="/admin/projectList" :route="{name: 'ProjectList'}">项目列表</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>
@@ -48,11 +48,38 @@
 <script>
   export default {
     name: "SideBar",
+    created() {
+      console.log(
+        this.$route.path
+      )
+    },
     data() {
       return {
-        openeds:['1'],
+        // activePage: this.$route.path,
+        // openeds:['1'],
         isCollapse: true
       };
+    },
+    computed: {
+      activePage: function() {
+        if (this.$route.path === '/admin') {
+          return '/admin/articleList'
+        } else {
+          return this.$route.path
+        }
+      },
+      openeds: function () {
+        if (this.$route.path.indexOf('tag') >= 0) {
+          return ['tag']
+        } else if (this.$route.path.indexOf('project') >= 0) {
+          return ['project']
+        } else {
+          return ['article']
+        }
+      }
+    },
+    mounted() {
+      console.log('ta',this.openeds)
     },
     methods: {
       handleOpen(key, keyPath) {

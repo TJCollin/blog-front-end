@@ -26,12 +26,12 @@ export default [
         component: ArticleInfo
       },
       {
-        path: 'ProjectList',
+        path: 'projectList',
         name: 'ProjectList',
         component: ProjectList
       },
       {
-        path: 'TagList',
+        path: 'tagList',
         name: 'TagList',
         component: TagList
       }

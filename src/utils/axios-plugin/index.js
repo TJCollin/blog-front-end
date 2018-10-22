@@ -4,19 +4,18 @@ import baseConfig from '../../config'
 import {Message} from "element-ui";
 
 const CancelToken = axios.CancelToken
+//promiseList 存放所有请求的取消函数
 let cancel, promiseList = {}
 
 const Axios = axios.create({
   baseURL: baseConfig.SERVER_URL,
   timeout: 10000,
   withCredentials: true,
-  responseType: "json",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-  },
-  cancelToken: new CancelToken(c => {
-    cancel = c
-  })
+  }
+// responseType: "json",
+
 })
 
 //请求拦截器
@@ -24,32 +23,27 @@ Axios.interceptors.request.use(
   async (config) => {
     let url_all = baseConfig.SERVER_URL + config.url
     let url_all_date = baseConfig.SERVER_URL + config.url + new Date().getTime()
-    let  key = checkUrl(url_all)
+    let key = checkUrl(url_all)
     if (key) {
-      //运行上一次的取消函数
-      promiseList[url_all_date] = async () => {
-        await cancel(url_all_date)
-        console.log('cancel:'+url_all_date)
-      }
-      let consodata = '重复请求，操作取消' + key
-      await promiseList[key](consodata)
-      promiseList[key] = null
+      cancel('取消')
+      // 存入这次的取消函数
+      promiseList[url_all_date] = cancel
+      // 运行上一次的取消函数
+      promiseList[key]('重复请求，取消上次请求')
       delete promiseList[key]
-      console.log(promiseList)
-      //存入这次的取消函数
+      // console.log(promiseList)
     } else {
-      promiseList[url_all_date] = async () => {
-        await cancel(url_all_date)
-        console.log('cancel:',url_all_date)
-      }
+      promiseList[url_all_date] = cancel
     }
 
-    if (
-      config.method === "post"
-    ) {
-      // 序列化
-      config.data = qs.stringify(config.data);
-      // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
+    if (config.method === "post") {
+      // 序列化，取决于后端能否接受json数据
+      if (config.url.indexOf('img') >= 0) {
+        config.headers = {"Content-Type": "multipart/form-data"}
+      } else {
+        config.headers = {"Content-Type": "application/x-www-form-urlencoded;charset=utf-8"}
+        config.data = qs.stringify(config.data);
+      }
     }
     return config
   },
@@ -64,10 +58,8 @@ Axios.interceptors.response.use(
     //拿到返回数据后清除取消函数
     let key = checkUrl(response.config.url)
     if (key) {
-      promiseList[key] = null
       delete promiseList[key]
     }
-    console.log('resp', response)
     return response
   }, err => {
     if (err && err.response) {
@@ -76,7 +68,6 @@ Axios.interceptors.response.use(
       let key = checkUrl(url_all)
       if (key) {
         delete promiseList[key]
-
       }
       switch (err.response.status) {
         case 400:
@@ -119,7 +110,7 @@ Axios.interceptors.response.use(
           err.message = `连接错误${err.response.status}`
       }
     } else {
-      if(err.config) {
+      if (err.config) {
         let key = checkUrl(err.config.url)
         if (key) {
           delete promiseList[key]
@@ -136,7 +127,58 @@ Axios.interceptors.response.use(
 
     Message.error(err.message)
     return Promise.reject(err)
+  }
+)
+
+Axios._post = (url, data) => {
+  return new Promise((resolve, reject) => {
+    // let formData = new FormData()
+    // formData.append('file', sdata)
+    Axios({
+        url,
+        method: 'post',
+        data: data,
+        cancelToken: new CancelToken(c => {
+          cancel = c
+        })
+      }
+    ).then(res => {
+      resolve(res)
+    }).catch(e => {
+      reject(e)
+    })
   })
+}
+Axios._get = (url, parmas) => {
+  return new Promise((resolve, reject) => {
+    Axios({
+      url,
+      method: 'get',
+      params: parmas
+    }).then((res) => {
+      resolve(res)
+    }).catch((e) => {
+      reject(e)
+    })
+  })
+}
+Axios._delete = (url, params) => {
+  return new Promise((resolve, reject) => {
+    Axios({
+      url,
+      method: 'delete',
+      params: params
+    }).then(
+      (res) => {
+        resolve(res)
+      }
+    ).catch(
+      (e) => {
+        reject(e)
+      }
+    )
+  })
+}
 
 const checkUrl = (url) => {
   for (let item of Object.keys(promiseList)) {
