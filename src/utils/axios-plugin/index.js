@@ -36,7 +36,7 @@ Axios.interceptors.request.use(
       promiseList[url_all_date] = cancel
     }
 
-    if (config.method === "post") {
+    if (config.method === "post" || config.method === "put") {
       // 序列化，取决于后端能否接受json数据
       if (config.url.indexOf('img') >= 0) {
         config.headers = {"Content-Type": "multipart/form-data"}
@@ -130,6 +130,25 @@ Axios.interceptors.response.use(
   }
 )
 
+Axios._put = (url, data) => {
+  return new Promise((resolve, reject) => {
+    // let formData = new FormData()
+    // formData.append('file', sdata)
+    Axios({
+        url,
+        method: 'put',
+        data: data,
+        cancelToken: new CancelToken(c => {
+          cancel = c
+        })
+      }
+    ).then(res => {
+      resolve(res)
+    }).catch(e => {
+      reject(e)
+    })
+  })
+}
 Axios._post = (url, data) => {
   return new Promise((resolve, reject) => {
     // let formData = new FormData()

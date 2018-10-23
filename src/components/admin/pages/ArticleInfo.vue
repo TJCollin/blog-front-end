@@ -32,6 +32,7 @@
     name: "ArticleInfo",
     data() {
       return {
+        updateTag: false,
         tagList: [],
         form: {
           title: '',
@@ -52,7 +53,29 @@
         }
       };
     },
+    // mounted() {
+    //
+    // },
     created() {
+      let articleId = this.$route.params.articleId
+      this.updateTag = false
+      if(articleId) {
+        this.updateTag = true
+        this.$axios._get('article/article',{
+          articleId: articleId
+        }).then(
+          (res) => {
+            if (res.data.code) {
+              this.form = res.data.result
+            } else {
+              this.$message.error(res.data.message)
+            }
+          }
+        ).catch((e) => {
+          console.log(e)
+        })
+      }
+
       this.$axios._get('tag/tag_list').then(
         (res) => {
           if (res.data.code) {
@@ -85,21 +108,40 @@
         )
 
       },
+      getLocalDate(){
+        let d = new Date();
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        return d
+      },
       submitForm() {
         let self = this
         self.$refs.articleForm.validate((valid) => {
           if (valid) {
-            self.$axios._post('article/article',self.form).then(
-              (res) => {
-                if (res.data.code) {
-                  self.$message.success("文章保存成功")
-                } else {
-                  self.$message.error("文章保存失败")
+            if (self.updateTag) {
+              self.$axios._put('article/article',{...self.form, updatedAt:self.getLocalDate()}).then(
+                (res) => {
+                  if (res.data.code) {
+                    self.$message.success("文章保存成功")
+                  } else {
+                    self.$message.error("文章保存失败")
+                  }
                 }
-              }
-            ).catch(e => {
-              console.log(e)
-            })
+              ).catch(e => {
+                console.log(e)
+              })
+            } else {
+              self.$axios._post('article/article',{...self.form, updatedAt:self.getLocalDate()}).then(
+                (res) => {
+                  if (res.data.code) {
+                    self.$message.success("文章保存成功")
+                  } else {
+                    self.$message.error("文章保存失败")
+                  }
+                }
+              ).catch(e => {
+                console.log(e)
+              })
+            }
           } else {
             self.$message.error("必要信息未填写完整！")
             return false;

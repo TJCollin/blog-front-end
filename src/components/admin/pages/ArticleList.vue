@@ -21,7 +21,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="createAt"
+        prop="updatedAt"
         sortable="true"
         label="日期">
       </el-table-column>
@@ -49,13 +49,13 @@
         label="操作">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, articleList)"
+            @click.native.prevent="updateArticle(scope.row._id)"
             type="text"
             size="small">
             修改
           </el-button>
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, articleList)"
+            @click.native.prevent="deleteRow(scope.row._id)"
             type="text"
             size="small">
             移除
@@ -88,24 +88,46 @@
       }
     },
     created() {
-      let self = this
-      self.$axios._get('article/article_list',{page: this.currentPage}).then(
-        (res) => {
-          if (res.data.code) {
-            self.articleList = res.data.result.res_limit
-          } else {
-            self.$message.error(res.data.message)
-          }
-        }
-      ).catch(
-        (e) => {
-          console.log(e)
-        }
-      )
+      this.getArticleListByPage()
     },
     methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
+      getArticleListByPage() {
+        let self = this
+        self.$axios._get('article/article_list',{page: this.currentPage}).then(
+          (res) => {
+            if (res.data.code) {
+              self.articleList = res.data.result.res_limit
+            } else {
+              self.$message.error(res.data.message)
+            }
+          }
+        ).catch(
+          (e) => {
+            console.log(e)
+          }
+        )
+
+      },
+      updateArticle(articleId){
+        this.$router.push({name: 'ArticleInfo',params:{articleId: articleId}})
+      },
+      deleteRow(id) {
+        let self = this
+        self.$axios._delete('article/article', {
+          articleId: id
+        }).then(
+          (res) => {
+            if (res.data.code) {
+              self.getArticleListByPage(self.currentPage)
+            } else {
+              self.$message.error(res.data.message)
+            }
+          }
+        ).catch((err) => {
+          console.log(
+            err
+          )
+        })
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
