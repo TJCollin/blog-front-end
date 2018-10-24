@@ -13,12 +13,6 @@
       <el-table-column
         prop="title"
         label="标题">
-        <template slot-scope="scope">
-          <router-link to="">
-            {{ scope.row.title}}
-          </router-link>
-
-        </template>
       </el-table-column>
       <el-table-column
         prop="updatedAt"
@@ -35,8 +29,10 @@
           <el-tag
             disable-transitions
             type="success"
+            v-for="tag in scope.row.tagArr"
+            :key="tag._id"
           >
-            Javascript
+            {{tag.tagName}}
             <!--{{scope.row.tag}}-->
           </el-tag>
             <!--:type="scope.row.tag === '家' ? 'primary' : 'success'"-->
@@ -153,6 +149,8 @@
     .el-table
       border-top 2px solid #eee
       flex 1
+      .el-tag
+        margin 0 5px 0 0
       a
         text-decoration none
     .table-pagination
