@@ -42,7 +42,7 @@
             <router-link :to="{name: 'About'}">关于</router-link>
           </div>
         </div>
-
+        <p class="admin-entry"><router-link :to="{name: 'ArticleList'}">进入管理页面</router-link></p>
       </div>
     </div>
     <div class="right-layer"></div>
@@ -252,6 +252,16 @@
               }
             }
           }
+        }
+
+        .admin-entry {
+          position absolute
+          bottom 10px
+          right 10px
+          a{
+            text-decoration underline
+          }
+
         }
       }
 

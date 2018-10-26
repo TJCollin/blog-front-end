@@ -67,7 +67,7 @@
         :page-sizes="[100, 200, 300, 400]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :total="total">
       </el-pagination>
     </div>
   </div>
@@ -78,7 +78,7 @@
     name: "ArticleList",
     data() {
       return {
-        input5: '',
+        total: 1,
         currentPage: 1,
         articleList: []
       }
@@ -93,6 +93,7 @@
           (res) => {
             if (res.data.code) {
               self.articleList = res.data.result.res_limit
+              self.total = res.data.result.total
             } else {
               self.$message.error(res.data.message)
             }

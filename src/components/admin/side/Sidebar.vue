@@ -3,7 +3,7 @@
     <div class="avatar">
       <div class="image"><img src="/static/images/avatar.jpg" alt="collin"></div>
       <p class="account">
-        <router-link :to="{name: 'AdminLogin'}">管理员</router-link>
+        <span @click="changeStatus">{{name}}</span>
       </p>
     </div>
     <el-row class="tac">
@@ -49,20 +49,30 @@
   export default {
     name: "SideBar",
     created() {
-      console.log(
-        this.$route.path
-      )
+      if (window.localStorage.getItem('BLOG_TOKEN')) {
+        let tokenMsg = JSON.parse(window.localStorage.getItem('BLOG_TOKEN'))
+        let exp = tokenMsg.lifeTime
+        let name = tokenMsg.name
+        if (exp > Math.floor(Date.now() / 1000)) {
+          this.name = name
+        }
+
+      }
+      // console.log(
+      //   this.$route.path
+      // )
     },
     data() {
       return {
         // activePage: this.$route.path,
         // openeds:['1'],
+        name: '非管理员',
         isCollapse: true
       };
     },
     computed: {
       activePage: function() {
-        if (this.$route.path === '/admin') {
+        if (this.$route.path === '/admin/') {
           return '/admin/articleList'
         } else {
           return this.$route.path
@@ -82,6 +92,31 @@
       console.log('ta',this.openeds)
     },
     methods: {
+      changeStatus() {
+        let self = this
+        if (!Object.is(self.name, '非管理员')) {
+          this.$confirm('此操作注销登录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            window.localStorage.removeItem('BLOG_TOKEN')
+            this.$message({
+              type: 'success',
+              message: '注销成功!'
+            });
+            self.$router.push({name: 'AdminLogin'})
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取注销'
+            });
+          });
+        } else {
+          self.$router.push({name: 'AdminLogin'})
+
+        }
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -117,7 +152,8 @@
       .account
         line-height 30px
         text-align center
-        a
+        span
+          cursor pointer
           &:hover
             color #409EFF
 

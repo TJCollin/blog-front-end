@@ -1,7 +1,8 @@
 <template>
   <div class="main">
-    <div class="login-box" >
-      <el-form ref="loginForm" label-position="right" label-width="60px" :model="loginForm" :rules="rules" @keyup.enter.native="login">
+    <div class="login-box">
+      <el-form ref="loginForm" label-position="right" label-width="60px" :model="loginForm" :rules="rules"
+               @keyup.enter.native="login">
         <el-form-item label="账号" prop="name">
           <el-input v-model="loginForm.name"></el-input>
         </el-form-item>
@@ -30,28 +31,27 @@
           password: ''
         },
         rules: {
-          name: [{ required: true, message: '账号不能为空哟！', trigger: 'blur' }],
-          password: [ { required: true, message: '密码不能为空哟', trigger: 'blur' }]
+          name: [{required: true, message: '账号不能为空哟！', trigger: 'blur'}],
+          password: [{required: true, message: '密码不能为空哟', trigger: 'blur'}]
         }
       }
     },
     methods: {
       login() {
         let self = this
-        self.refs.loginForm.validate((valid) => {
+        self.$refs.loginForm.validate((valid) => {
           if (valid) {
-            self.$axios.post('user/login',{
-              data: {
-                "username": self.loginForm.name,
-                "password": self.loginForm.password
-              }
+            self.$axios._post('user/login', {
+              "username": self.loginForm.name,
+              "password": self.loginForm.password
             }).then(
               (res) => {
-                if(res.data.code) {
+                if (res.data.code) {
                   console.log(res.data)
-                  self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
+                  // self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
+                  window.localStorage.setItem('BLOG_TOKEN', JSON.stringify(res.data.result))
                   self.$router.push({name: 'ArticleList'})
-                }else {
+                } else {
                   this.$message.error(res.data.message)
                 }
               },
@@ -92,8 +92,6 @@
       width 300px
       .el-form
         padding 10px
-
-
 
 
 </style>

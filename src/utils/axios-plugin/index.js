@@ -7,12 +7,17 @@ const CancelToken = axios.CancelToken
 //promiseList 存放所有请求的取消函数
 let cancel, promiseList = {}
 
+const methodArr = ['post', 'put', 'delete', 'patch']
+
 const Axios = axios.create({
   baseURL: baseConfig.SERVER_URL,
   timeout: 10000,
   withCredentials: true,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+  },
+  validateStatus: function (status) {
+    return status >= 200 && status <= 300; // default
   }
 // responseType: "json",
 
@@ -36,7 +41,7 @@ Axios.interceptors.request.use(
       promiseList[url_all_date] = cancel
     }
 
-    if (config.method === "post" || config.method === "put") {
+    if (methodArr.includes(config.method)) {
       // 序列化，取决于后端能否接受json数据
       if (config.url.indexOf('img') >= 0) {
         config.headers = {"Content-Type": "multipart/form-data"}
@@ -44,6 +49,10 @@ Axios.interceptors.request.use(
         config.headers = {"Content-Type": "application/x-www-form-urlencoded;charset=utf-8"}
         config.data = qs.stringify(config.data);
       }
+    }
+    if (window.localStorage.getItem('BLOG_TOKEN')) {
+      config.headers.Authorization = `Collin ${window.localStorage.getItem('BLOG_TOKEN')}`
+
     }
     return config
   },
@@ -173,7 +182,10 @@ Axios._get = (url, parmas) => {
     Axios({
       url,
       method: 'get',
-      params: parmas
+      params: parmas,
+      cancelToken: new CancelToken(c => {
+        cancel = c
+      })
     }).then((res) => {
       resolve(res)
     }).catch((e) => {
@@ -181,12 +193,15 @@ Axios._get = (url, parmas) => {
     })
   })
 }
-Axios._delete = (url, params) => {
+Axios._delete = (url, data) => {
   return new Promise((resolve, reject) => {
     Axios({
       url,
       method: 'delete',
-      params: params
+      data: data,
+      cancelToken: new CancelToken(c => {
+        cancel = c
+      })
     }).then(
       (res) => {
         resolve(res)

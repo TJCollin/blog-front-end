@@ -1,26 +1,28 @@
 <template>
-  <el-container>
-    <el-aside width="200px">
-      <sidebar></sidebar>
-    </el-aside>
-    <el-container>
-      <el-main>
-        <div class="main-content">
-          <router-view></router-view>
-        </div>
+  <div class="main-layout">
+    <el-container class="layout-container">
+      <el-aside width="200px">
+        <sidebar></sidebar>
+      </el-aside>
+      <el-container>
+        <el-main>
+          <div class="main-content">
+            <router-view></router-view>
+          </div>
 
-      </el-main>
-      <el-footer>
-        <div class="footer-box">
-          <p>
-            &copy;2018-
-            <a href="https://github.com/TJCollinZhang">Collin的博客</a>
-            Powered by Vue & Koa
-          </p>
-        </div>
-      </el-footer>
+        </el-main>
+        <el-footer>
+          <div class="footer-box">
+            <p>
+              &copy;2018-
+              <a href="https://github.com/TJCollinZhang">Collin的博客</a>
+              Powered by Vue & Koa
+            </p>
+          </div>
+        </el-footer>
+      </el-container>
     </el-container>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -41,28 +43,37 @@
 </script>
 
 <style scoped lang="stylus">
-  .el-aside
-    background-color: #f0f2f5;
-    height 100%
+  .main-layout
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    .layout-container
+      height 100%
+      .el-aside
+        background-color: #f0f2f5;
+        height 100%
 
-  .el-main
-    background-color: #f0f2f5;
-    padding 10px
-    .main-content
-      height 100%;
-      background-color: #fff;
-      padding 20px
-  .el-footer
-    background-color: #f0f2f5;
-    padding 0 10px
-    .footer-box
-      width: 100%
-      height: 60px
-      background-color: #fff;
-      border-top: 1px solid #eee
-      p
-        text-align center
-        line-height 60px
+      .el-main
+        background-color: #f0f2f5;
+        padding 10px
+        .main-content
+          height 100%;
+          background-color: #fff;
+          padding 20px
+      .el-footer
+        background-color: #f0f2f5;
+        padding 0 10px
+        .footer-box
+          width: 100%
+          height: 60px
+          background-color: #fff;
+          border-top: 1px solid #eee
+          p
+            text-align center
+            line-height 60px
 
 
 

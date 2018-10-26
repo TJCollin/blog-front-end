@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <div class="editor">
-      <m-editor ref="editor" v-model="form.content" @imgAdd="imgAdd" style="height: 100%" @save="saveArticle"></m-editor>
+      <m-editor ref="editor" v-model="form.content" @imgAdd="imgAdd" style="height: 100%;width: 100%" @save="saveArticle"></m-editor>
     </div>
     <div class="editor-footer">
       <el-button type="primary" @click="submitForm">提交</el-button>
