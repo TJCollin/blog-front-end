@@ -36,7 +36,7 @@
       <div class="inner-box" id="container"></div>
     </div>
     <div class="more-project">
-      <router-link to="/project">
+      <router-link :to="{name: 'Project'}">
         <p>Get More Project</p>
         <p>了解更多我的开源项目</p>
       </router-link>

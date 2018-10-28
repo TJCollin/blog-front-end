@@ -66,7 +66,7 @@
         }).then(
           (res) => {
             if (res.data.code) {
-              this.form = res.data.result
+              this.form = res.data.result[0]
             } else {
               this.$message.error(res.data.message)
             }

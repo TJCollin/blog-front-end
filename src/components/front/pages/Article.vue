@@ -2,31 +2,15 @@
   <div class="aricle-part">
     <div class="article">
       <ul>
-        <li class="item">
-          <h3 class="title"><a href="">标题</a></h3>
-          <p class="abstract">二叉树中的节点最多只能有两个子节点:一个是左侧子节点，另一个是右侧子节点。这些定 义有助于我们写出更高效的向/从树中插入、查找和删除节点的算法。</p>
+        <li class="item" v-for="article in articleList" :key="article._id">
+          <h3 class="title"><router-link :to="{name: 'ArticleContent',params:{articleId: article._id}}">{{article.title}}</router-link></h3>
+          <p class="abstract">{{article.abstract}}</p>
           <p class="article-info">
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
-          </p>
-
-        </li>
-        <li class="item">
-          <h3 class="title"><a href="">标题</a></h3>
-          <p class="abstract">二叉树中的节点最多只能有两个子节点:一个是左侧子节点，另一个是右侧子节点。这些定 义有助于我们写出更高效的向/从树中插入、查找和删除节点的算法。</p>
-          <p class="article-info">
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
-            <span class="dot"><i class="iconfont icon-dot"></i></span>
-            <span class="info">2018</span>
+            <span class="info">{{article.updatedAt.split(' ')[0]}}</span>
+            <span v-for="tag in article.tagArr" :key="tag._id">
+              <span class="dot"><i class="iconfont icon-dot"></i></span>
+              <span class="info">{{tag.tagName}}</span>
+            </span>
           </p>
 
         </li>
@@ -47,25 +31,14 @@
       <div class="hot">
         <h3 class="title">热门文章</h3>
         <ul>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
-          <li><a href="">面试题：给你个id，去拿到name，多叉树遍历</a></li>
+          <li v-for="hot in hotList" :key="hot._id"><router-link :to="hot._id">{{hot.title}}</router-link></li>
         </ul>
       </div>
       <div class="tags">
         <div class="title">标签</div>
         <ul class="tag-list">
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
-          <li class="tag"><a href="">vue</a></li>
+          <li class="tag" v-for="tag in tagList" :key="tag._id"><a href="">{{tag.tagName}}</a></li>
+
         </ul>
       </div>
     </div>
@@ -79,13 +52,29 @@
       return {
         total: 1,
         currentPage: 1,
+        articleList: [],
+        hotList: [],
+        tagList: []
       }
 
     },
     created() {
-
+      this.getArticleListByPage()
+      this.getTagList()
     },
     methods: {
+      getTagList() {
+        this.$axios._get('tag/tag_list').then(
+          (res) => {
+            if (res.data.code) {
+              this.tagList = res.data.result.res_limit
+            }
+          }
+        ).catch(
+          (e) => {
+            console.log(e)
+          })
+      },
       getArticleListByPage() {
         let self = this
         self.$axios._get('article/article_list', {page: this.currentPage}).then(
@@ -93,6 +82,10 @@
             if (res.data.code) {
               self.articleList = res.data.result.res_limit
               self.total = res.data.result.total
+              if(Object.is(self.hotList.length, 0)) {
+                console.log('hot')
+                self.hotList = res.data.result.res_limit
+              }
             } else {
               self.$message.error(res.data.message)
             }

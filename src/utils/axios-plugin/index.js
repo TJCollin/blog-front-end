@@ -51,7 +51,7 @@ Axios.interceptors.request.use(
       }
     }
     if (window.localStorage.getItem('BLOG_TOKEN')) {
-      config.headers.Authorization = `Collin ${window.localStorage.getItem('BLOG_TOKEN')}`
+      config.headers.Authorization = `Collin ${JSON.parse(window.localStorage.getItem('BLOG_TOKEN')).token}`
 
     }
     return config

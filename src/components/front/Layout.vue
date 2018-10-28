@@ -7,11 +7,13 @@
             <li>
               <router-link to="/">首页</router-link>
             </li>
-            <li class="active">
+            <li :class="isActive('article')">
               <router-link :to="{name: 'Article'}">文章</router-link>
             </li>
-            <li><router-link :to="{name: 'Project'}">项目</router-link></li>
-            <li>
+            <li :class="isActive('project')">
+              <router-link :to="{name: 'Project'}">项目</router-link>
+            </li>
+            <li :class="isActive('about')">
               <router-link :to="{name: 'About'}">关于</router-link>
             </li>
           </ul>
@@ -52,9 +54,16 @@
     mounted() {
       this.bgCanvas()
     },
-    components: {
-    },
+    computed: {},
+    components: {},
     methods: {
+      isActive(str) {
+        if (this.$route.path.includes(str)) {
+          return 'active'
+        }
+        return ''
+
+      },
       bgCanvas() {
         let canvas = null
         if (!this.canvasDom) {
@@ -220,10 +229,12 @@
   .slide-fade-enter-active {
     transition: all .3s ease;
   }
+
   .slide-fade-leave-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  .slide-fade-enter, .slide-fade-leave-to{
+
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateX(10px);
     opacity: 0;
   }
@@ -252,7 +263,6 @@
         float: left;
         ul
 
-
           li
             float: left
             a
@@ -264,12 +274,11 @@
               display block
               color #8c8c8c
 
-
               &:hover
                 color #409EFF
           li.active
             a
-             color #409EFF
+              color #409EFF
       .search
         float right
         height 100%
@@ -315,6 +324,6 @@
     p
       text-align center
       line-height 60px
-      
+
 
 </style>
