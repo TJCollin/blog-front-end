@@ -42,6 +42,7 @@ export default [
   },
   {
     path: '*',
+    name: 'Main',
     component: Main
   }
   ]

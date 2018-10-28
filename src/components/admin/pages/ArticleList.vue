@@ -1,7 +1,7 @@
 <template>
   <div class="list-box">
     <div class="search">
-      <el-input placeholder="搜索文章标题" clearable v-model="input5" class="input-with-select">
+      <el-input placeholder="搜索文章标题" clearable v-model="keywords" class="input-with-select">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </div>
@@ -80,7 +80,8 @@
       return {
         total: 1,
         currentPage: 1,
-        articleList: []
+        articleList: [],
+        keywords: ''
       }
     },
     created() {

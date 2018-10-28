@@ -12,7 +12,6 @@
               <span class="info">{{tag.tagName}}</span>
             </span>
           </p>
-
         </li>
       </ul>
       <div class="pagination">
@@ -119,7 +118,7 @@
       flex-direction column
       ul
         flex 1
-        padding-top: 20px
+        padding: 0 30px 20px 10px
         li
           padding-top 15px
           padding-bottom 15px
@@ -180,6 +179,8 @@
               line-height: 40px
               text-overflow ellipsis
               text-indent 10px
+              &:hover
+                text-decoration underline
       .tags
         padding-top: 20px
         .title
@@ -191,5 +192,7 @@
             padding 0 10px
             a
               line-height: 40px
+              &:hover
+                text-decoration underline
 
 </style>

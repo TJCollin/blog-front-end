@@ -164,14 +164,15 @@
     display flex
     height 100%
     flex-direction column
-    ol
-      list-style decimal
-    ul
-      list-style disc
+
     .editor
       flex 1
       height 700px
       display flex
+      ol
+        list-style decimal
+      ul
+        list-style disc
 
     .editor-footer
       width fit-content

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="avatar">
-      <div class="image"><img src="/static/images/avatar.jpg" alt="collin"></div>
+      <div class="image"><router-link :to="{name: 'Main'}"><img src="/static/images/avatar.jpg" alt="collin"></router-link></div>
       <p class="account">
         <span @click="changeStatus">{{name}}</span>
       </p>
