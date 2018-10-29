@@ -4,7 +4,7 @@
     <div class="box">
       <div class="aside">
         <div class="aside-content">
-          <a class="avatar">
+          <a class="avatar reveal-scale">
             <img src="static/images/avatar.jpg" alt="collin">
           </a>
           <p class="name">Collin</p>
@@ -21,22 +21,22 @@
               </a>
             </li>
           </ul>
-          <div class="gif"></div>
+          <div class="gif reveal-scale"></div>
           <!--<img class="gif" src="static/images/bg2.gif">-->
         </div>
       </div>
       <div class="content">
         <!--<img class="gif" src="static/images/bg10.gif">-->
-        <div class="gif"></div>
+        <div class="gif reveal-left"></div>
 
-        <div class="main-nav">
+        <div class="main-nav reveal-left">
           <div class="link">
             <router-link to="">首页</router-link>
 
               <router-link :to="{name: 'Article'}">文章</router-link>
           </div>
         </div>
-        <div class="main-nav">
+        <div class="main-nav reveal-right">
           <div class="link">
             <router-link :to="{name: 'Project'}">项目</router-link>
             <router-link :to="{name: 'About'}">关于</router-link>
@@ -50,10 +50,67 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import scrollReveal from 'scrollreveal';
   export default {
     name: "Main",
     data() {
-      return {};
+      return {
+        scrollReveal: scrollReveal()
+      }
+    },
+    mounted() {
+      this.scrollReveal.reveal('.reveal-scale', {
+        // 动画的时长
+        duration: 1000,
+        // 延迟时间
+        delay: 200,
+        // 动画开始的位置，'bottom', 'left', 'top', 'right'
+        // origin: 'top',
+        // 回滚的时候是否再次触发动画
+        reset: false,
+        // 在移动端是否使用动画
+        mobile: false,
+        // 滚动的距离，单位可以用%，rem等
+        // distance: '200px',
+        // 其他可用的动画效果
+        opacity: 0.001,
+        easing: 'linear',
+        scale: 0.8,
+      });
+      this.scrollReveal.reveal('.reveal-left', {
+        // 动画的时长
+        duration: 1000,
+        // 延迟时间
+        delay: 200,
+        // 动画开始的位置，'bottom', 'left', 'top', 'right'
+        origin: 'left',
+        // 回滚的时候是否再次触发动画
+        reset: false,
+        // 在移动端是否使用动画
+        mobile: false,
+        // 滚动的距离，单位可以用%，rem等
+        distance: '200px',
+        // 其他可用的动画效果
+        opacity: 0.001,
+        easing: 'linear',
+      });
+      this.scrollReveal.reveal('.reveal-right', {
+        // 动画的时长
+        duration: 1000,
+        // 延迟时间
+        delay: 200,
+        // 动画开始的位置，'bottom', 'left', 'top', 'right'
+        origin: 'right',
+        // 回滚的时候是否再次触发动画
+        reset: false,
+        // 在移动端是否使用动画
+        mobile: false,
+        // 滚动的距离，单位可以用%，rem等
+        distance: '200px',
+        // 其他可用的动画效果
+        opacity: 0.001,
+        easing: 'linear',
+      });
     },
     components: {}
   };

@@ -69,7 +69,7 @@
     <el-dialog title="新增项目" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" label-width="120px" ref="projectForm" @keyup.enter.native="submitForm">
         <el-form-item label="项目名称" prop="projectName">
-          <el-input v-focus v-model="form.projectName" autocomplete="off" ref="projectName"></el-input>
+          <el-input v-model="form.projectName" autocomplete="off" ref="projectName"></el-input>
         </el-form-item>
         <el-form-item label="标签描述">
           <el-input v-model="form.projectDesc" autocomplete="off"></el-input>

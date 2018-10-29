@@ -31,10 +31,7 @@
     <div class="content">
       <canvas id="canvas" width="1200" height="803"></canvas>
       <div class="center">
-        <transition name="slide-fade">
-          <router-view></router-view>
-        </transition>
-
+        <router-view></router-view>
       </div>
     </div>
     <div class="footer">
@@ -226,18 +223,19 @@
 
 <style scoped lang="stylus">
 
-  .slide-fade-enter-active {
-    transition: all .3s ease;
+  .slide-fade-enter-active{
+    transition: all .5s ease;
   }
 
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+
+
+  .slide-fade-enter {
+    transform: translateX(-100%);
   }
 
-  .slide-fade-enter, .slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
+  //.slide-fade-leave {
+//    transform: translateX(-100%);
+  //}
 
   .main
     display flex

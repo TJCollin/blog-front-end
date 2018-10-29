@@ -7,8 +7,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
-    name: 'App'
+    name: 'App',
+    computed: {
+      ...mapGetters([
+        'getRouteName'
+      ])
+    },
+
   }
 </script>
 
@@ -17,11 +24,12 @@
     height: 100%;
   }
 
+
   .slide-left-enter-active {
-    transition: all 1s ease;
+    transition: all 0.5s ease;
   }
   .slide-left-leave-active {
-    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.5s ease;
   }
 
   .slide-left-enter, .slide-left-leave-to{

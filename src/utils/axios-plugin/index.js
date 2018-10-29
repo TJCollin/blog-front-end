@@ -26,21 +26,6 @@ const Axios = axios.create({
 //请求拦截器
 Axios.interceptors.request.use(
   async (config) => {
-    let url_all = baseConfig.SERVER_URL + config.url
-    let url_all_date = baseConfig.SERVER_URL + config.url + new Date().getTime()
-    let key = checkUrl(url_all)
-    if (key) {
-      cancel('取消')
-      // 存入这次的取消函数
-      promiseList[url_all_date] = cancel
-      // 运行上一次的取消函数
-      promiseList[key]('重复请求，取消上次请求')
-      delete promiseList[key]
-      // console.log(promiseList)
-    } else {
-      promiseList[url_all_date] = cancel
-    }
-
     if (methodArr.includes(config.method)) {
       // 序列化，取决于后端能否接受json数据
       if (config.url.indexOf('img') >= 0) {
@@ -50,6 +35,7 @@ Axios.interceptors.request.use(
         config.data = qs.stringify(config.data);
       }
     }
+    //增加token
     if (window.localStorage.getItem('BLOG_TOKEN')) {
       config.headers.Authorization = `Collin ${JSON.parse(window.localStorage.getItem('BLOG_TOKEN')).token}`
 
@@ -129,7 +115,8 @@ Axios.interceptors.response.use(
       }
       else {
         //暂时只遇到重复请求时才没有err.config
-        console.log('重复请求')
+        console.log(err)
+        err.message = "未知错误，请刷新页面"
       }
     }
 
@@ -141,76 +128,100 @@ Axios.interceptors.response.use(
 
 Axios._put = (url, data) => {
   return new Promise((resolve, reject) => {
-    // let formData = new FormData()
-    // formData.append('file', sdata)
-    Axios({
-        url,
-        method: 'put',
-        data: data,
-        cancelToken: new CancelToken(c => {
-          cancel = c
-        })
-      }
-    ).then(res => {
-      resolve(res)
-    }).catch(e => {
-      reject(e)
-    })
+    let key = checkUrl(url)
+    if (key) {
+      Message.error("重复请求")
+      reject("duplicate request")
+    } else {
+      Axios({
+          url,
+          method: 'put',
+          data: data,
+          cancelToken: new CancelToken(c => {
+            cancel = c
+          })
+        }
+      ).then(res => {
+        resolve(res)
+      }).catch(e => {
+        reject(e)
+      })
+    }
+
   })
 }
 Axios._post = (url, data) => {
   return new Promise((resolve, reject) => {
-    // let formData = new FormData()
-    // formData.append('file', sdata)
-    Axios({
-        url,
-        method: 'post',
-        data: data,
-        cancelToken: new CancelToken(c => {
-          cancel = c
-        })
-      }
-    ).then(res => {
-      resolve(res)
-    }).catch(e => {
-      reject(e)
-    })
+    let key = checkUrl(url)
+    if (key) {
+      Message.error("重复请求")
+      reject("duplicate request")
+    } else {
+      Axios({
+          url,
+          method: 'post',
+          data: data,
+          cancelToken: new CancelToken(c => {
+            cancel = c
+          })
+        }
+      ).then(res => {
+        resolve(res)
+      }).catch(e => {
+        reject(e)
+      })
+    }
+
   })
 }
 Axios._get = (url, parmas) => {
   return new Promise((resolve, reject) => {
-    Axios({
-      url,
-      method: 'get',
-      params: parmas,
-      cancelToken: new CancelToken(c => {
-        cancel = c
+    let key = checkUrl(url)
+    if (key) {
+      Message.error("重复请求")
+      reject("duplicate request")
+    } else {
+      Axios({
+        url,
+        method: 'get',
+        params: parmas,
+        cancelToken: new CancelToken(c => {
+          cancel = c
+        })
+      }).then((res) => {
+        resolve(res)
+      }).catch((e) => {
+        reject(e)
       })
-    }).then((res) => {
-      resolve(res)
-    }).catch((e) => {
-      reject(e)
-    })
+    }
+
   })
 }
 Axios._delete = (url, data) => {
   return new Promise((resolve, reject) => {
-    Axios({
-      url,
-      method: 'delete',
-      data: data,
-      cancelToken: new CancelToken(c => {
-        cancel = c
-      })
-    }).then(
-      (res) => {
-        resolve(res)
-      }
-    ).catch(
-      (e) => {
-        reject(e)
-      }
-    )
+    let key = checkUrl(url)
+    if (key) {
+      Message.error("重复请求")
+      reject("duplicate request")
+    } else {
+      Axios({
+        url,
+        method: 'delete',
+        data: data,
+        cancelToken: new CancelToken(c => {
+          cancel = c
+        })
+      }).then(
+        (res) => {
+          resolve(res)
+        }
+      ).catch(
+        (e) => {
+          reject(e)
+        }
+      )
+    }
+
   })
 }
 

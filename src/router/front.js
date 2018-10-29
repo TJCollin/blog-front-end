@@ -42,8 +42,7 @@ export default [
   },
   {
     path: '*',
-    name: 'Main',
-    component: Main
+    redirect: {name : 'Main'}
   }
   ]
 

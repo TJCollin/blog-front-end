@@ -222,6 +222,10 @@ i {
   content: "\e60b"
 }
 
+.icon-people::before {
+  content: "\e61c"
+}
+
 .icon-code::before {
   content: "\e6c7"
 }
