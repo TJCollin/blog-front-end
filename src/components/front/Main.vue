@@ -21,7 +21,7 @@
               </a>
             </li>
           </ul>
-          <div class="gif reveal-scale"></div>
+          <div class="gif"></div>
           <!--<img class="gif" src="static/images/bg2.gif">-->
         </div>
       </div>
