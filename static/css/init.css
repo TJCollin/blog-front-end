@@ -287,6 +287,10 @@ i {
   content: "\e745";
 }
 
+.icon-email-full:before {
+  content: "\e684";
+}
+
 .icon-menu:before {
   content: "\e629";
 }

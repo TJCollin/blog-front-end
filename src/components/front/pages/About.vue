@@ -28,7 +28,7 @@
         <p class="name">Collin</p>
         <div title="Send Me Offer ~" class="email">
           <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=GSgpIS0hKyohKi1ZaGg3enZ0"
-             style="text-decoration:none;">Email <i class="iconfont icon-email-full"></i></a>
+             style="text-decoration:none;"><i class="iconfont icon-email-full"></i> Email</a>
         </div>
 
       </div>
