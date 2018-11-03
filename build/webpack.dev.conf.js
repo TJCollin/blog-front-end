@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -17,6 +18,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
+  mode: 'development',
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
 
@@ -46,6 +48,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // disableHostCheck: true
   },
   plugins: [
+    new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
