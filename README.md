@@ -1,6 +1,16 @@
 # blog
 
-> A Vue.js project
+> 使用Vue+VueRouter开发的个人博客前端，分为博客管理界面`adimn`和博客展示界面`front`
+ - ElementUI作为管理界面框架
+ - Axios统一前端请求和相应拦截处理
+ - ScrollReveal页面初始动画
+ - MavonEditor用于博客展示和编写
+ - ... ...
+
+## 功能介绍
+1. 博客文章编写与展示
+   
+2. 
 
 ## Build Setup
 

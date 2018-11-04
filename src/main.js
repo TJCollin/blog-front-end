@@ -6,12 +6,10 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import AxiosPlugin from './utils/axios-plugin'
-import Qs from 'qs'
 import store from './store'
 import baseConfig from './config'
 
 Vue.use(AxiosPlugin)
-Vue.prototype.$qs = Qs
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

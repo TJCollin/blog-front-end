@@ -27,6 +27,7 @@
 <script>
   import {mavonEditor} from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
+  import BaseConfig from '@/config'
 
   export default {
     name: "ArticleInfo",
@@ -97,7 +98,7 @@
         let config = {headers: {"Content-Type": "multipart/form-data"}}
         this.$axios._post('img', formData).then(
           (res) => {
-            let url = 'http://localhost:3000/images/' + res.data.result.filename
+            let url = `${BaseConfig.SERVER_NAME}images/${res.data.result.filename}`
             this.$refs.editor.$img2Url(pos, url)
             console.log(res)
           }
