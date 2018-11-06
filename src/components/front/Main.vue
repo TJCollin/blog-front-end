@@ -11,12 +11,12 @@
           <p class="info">期待小黑大电影~</p>
           <ul class="links">
             <li>
-              <a href="#">
+              <a href="https://blog.csdn.net/tjzc1352640" target="_blank">
                 <i class="iconfont icon-csdn"></i>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="https://github.com/TJCollinZhang" target="_blank">
                 <i class="iconfont icon-github"></i>
               </a>
             </li>
@@ -220,6 +220,10 @@
                   height: 50px;
                   width: 50px;
                 }
+              }
+
+              a:hover {
+                color #3fb76c;
               }
 
             }

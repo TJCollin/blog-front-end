@@ -14,9 +14,9 @@
           </li>
           <li><i class="iconfont icon-menu"></i>
             <p class="list">
-              <a href="#"><i class="iconfont icon-csdn"></i></a>
-              <a href="#"><i class="iconfont icon-github"></i></a>
-              <a href="#"><i class="iconfont icon-weibo"></i></a>
+              <a href="https://blog.csdn.net/tjzc1352640" target="_blank"><i class="iconfont icon-csdn"></i></a>
+              <a href="https://github.com/TJCollinZhang" target="_blank"><i class="iconfont icon-github"></i></a>
+              <a href="https://weibo.com/3784593001/profile" target="_blank"><i class="iconfont icon-weibo"></i></a>
             </p>
           </li>
         </ul>
@@ -181,6 +181,8 @@
           a
             display flex
             align-items center
+            &:hover
+              color #409EFF
             i
               font-size 20px
               padding 0 5px

@@ -17,10 +17,10 @@
     </div>
     <div class="share-list">
       <ul>
-        <li><a href="#"><i class="iconfont icon-qq"></i></a></li>
-        <li><a href="#"><i class="iconfont icon-qqzone"></i></a></li>
-        <li><a href="#"><i class="iconfont icon-weibo"></i></a></li>
-        <li><a href="#"><i class="iconfont icon-wechat"></i></a></li>
+        <li><a :href="`http://connect.qq.com/widget/shareqq/index.html?url=blog.collinjs.site&title=${articleInfo.title}`" target="_blank"><i class="iconfont icon-qq"></i></a></li>
+        <li><a :href="`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=blog.collinjs.site&title=${articleInfo.title}`" target="_blank"><i class="iconfont icon-qqzone"></i></a></li>
+        <li><a :href="`http://service.weibo.com/share/share.php?url=blog.collinjs.site&title=${articleInfo.title}`" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+        <li><a :href="`https://www.douban.com/share/service?url=blog.collinjs.site&title=${articleInfo.title}`" target="_blank"><i class="iconfont icon-douban"></i></a></li>
       </ul>
     </div>
   </div>
@@ -30,6 +30,7 @@
 <script>
   import {mavonEditor} from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
+  // import BaseConfig from '@/config'
 	export default {
 		name: "ArticleInfo",
     components: {
@@ -105,7 +106,7 @@
       overflow hidden
       padding 10px
       top 50%
-      transform translate(-120%, 0)
+      transform translate(-120%, -50%)
       ul
         li
           a
@@ -114,6 +115,7 @@
                 color: #409EFF
           i.iconfont
             display block
+            padding 5px
             font-size 1.5rem
 
 </style>

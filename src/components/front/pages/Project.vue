@@ -87,6 +87,7 @@
         &:hover
           background-color: rgba(0,0,0,0.02);
           box-shadow: 2px 2px 5px #CCC;
+          transform scale(1.05)
 
           .project-icon
             transform rotateY(180deg)
