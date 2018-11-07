@@ -155,7 +155,7 @@
                 self.$axios._post('project/project',self.form).then(
                   (res) => {
                     if (res.data.code) {
-                      self.$message.success("保存项目成功！")
+                      self.$message.success(res.data.message)
                       self.$refs.projectForm.resetFields()
                       self.dialogFormVisible = false
                       self.getProjectListByPage(self.currentPage)
