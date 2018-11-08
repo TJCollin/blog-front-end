@@ -56,4 +56,4 @@ npm run build
  - ... ...
 
 ## Thanks
-页面布局大量参考了Naice大神的界面（https://github.com/naihe138/naice-blog），特此感谢
+页面布局大量参考了Naice大神的界面(https://github.com/naihe138/naice-blog)，特此感谢
