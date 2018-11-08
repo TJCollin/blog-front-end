@@ -8,6 +8,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 import AxiosPlugin from './utils/axios-plugin'
 import store from './store'
 import baseConfig from './config'
+import "@babel/polyfill"
+import Es6Promise from 'es6-promise'
+
+Es6Promise.polyfill()
 
 Vue.use(AxiosPlugin)
 Vue.config.productionTip = false
