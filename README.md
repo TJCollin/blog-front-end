@@ -1,5 +1,10 @@
 # blog
 
+[![GitHub license](https://img.shields.io/github/license/TJCollinZhang/blog-front-end.svg)](https://github.com/TJCollinZhang/blog-front-end/blob/master/LICENSE)
+![GitHub release](https://img.shields.io/github/release/TJCollinZhang/blog-front-end.svg)
+
+
+
 > 使用Vue+VueRouter开发的个人博客前端，分为博客管理界面`adimn`和博客展示界面`front`
 博客后端地址：https://github.com/TJCollinZhang/blog-server
  - ElementUI作为管理界面框架
