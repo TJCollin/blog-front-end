@@ -1,5 +1,5 @@
 <template>
-  <div class="about-part">
+  <div class="about-part" ref="about">
     <div class="user reveal-left">
       <div class="user-info">
         <ul>
@@ -42,21 +42,25 @@
         <p>了解更多我的开源项目</p>
       </router-link>
     </div>
+
   </div>
 </template>
 
 <script>
-  import {MP} from '@/utils/map'
+  import {MP} from '@/utils/map';
+  import FooterMixin from '@/utils/mixin/footer-mixin'
   import scrollReveal from 'scrollreveal';
 
   export default {
     name: "About",
+    mixins: [FooterMixin],
     data() {
       return {
         scrollReveal: scrollReveal()
       }
     },
     mounted() {
+      this.footer(this.$refs.about.offsetHeight)
       this.scrollReveal.reveal('.reveal-left', {
         // 动画的时长
         duration: 500,
@@ -109,6 +113,7 @@
         })
 
 
+
       })
     }
   }
@@ -116,6 +121,7 @@
 
 <style scoped lang="stylus">
   .about-part
+    overflow auto
     padding-top: 10px
     .user
       width 100%

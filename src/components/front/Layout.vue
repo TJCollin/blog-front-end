@@ -28,13 +28,13 @@
         </div>
       </div>
     </div>
-    <div class="content">
+    <div class="content" ref="content">
       <canvas id="canvas" width="1200" height="803"></canvas>
       <div class="center">
         <router-view></router-view>
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" :class="getFooterFixed ? 'footer-fixed' : ''">
       <p>
         &copy;2018-
         <a href="https://github.com/TJCollinZhang">Collin的博客</a>
@@ -46,13 +46,20 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: "Layout",
     mounted() {
       this.bgCanvas()
     },
-    computed: {},
-    components: {},
+    computed: {
+      ...mapGetters([
+        'getFooterFixed'
+      ])
+    },
+    components: {
+
+    },
     methods: {
       isActive(str) {
         if (this.$route.path.includes(str)) {
@@ -223,27 +230,27 @@
 
 <style scoped lang="stylus">
 
-  .slide-fade-enter-active{
+  .slide-fade-enter-active {
     transition: all .5s ease;
   }
-
-
 
   .slide-fade-enter {
     transform: translateX(-100%);
   }
 
   //.slide-fade-leave {
-//    transform: translateX(-100%);
+  //    transform: translateX(-100%);
   //}
+  .footer-fixed
+    position fixed
+    left 0
+    bottom 0
 
   .main
-    display flex
-    flex-direction column
-    align-items: center
     width: 100%;
     position: absolute;
     left: 0;
+    right 0
     top: 0;
     bottom: 0;
 
@@ -280,6 +287,7 @@
         float right
         height 100%
         display flex
+        justify-content flex-end
         -webkit-align-items center
         align-items center
         .input-box
@@ -304,16 +312,13 @@
             cursor: pointer;
 
   .content
-    flex 1
+    margin 0 auto
     width: 900px
-    overflow-y visible
-    -ms-overflow-y scroll
-
     padding-bottom 20px
     #canvas
       position: fixed;
       left: 0;
-      top: 0;
+      bottom: 0;
       z-index: -1;
 
   .footer

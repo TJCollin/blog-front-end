@@ -1,5 +1,5 @@
 <template>
-  <div class="project-wrapper">
+  <div class="project-wrapper" ref="project">
     <ul class="reveal-rotate">
       <li v-for="project in projectList" :key="project._id">
         <div class="project-box">
@@ -21,9 +21,12 @@
 
 <script>
   import scrollReveal from 'scrollreveal';
+  import FooterMixin from '@/utils/mixin/footer-mixin'
+
+
   export default {
     name: "project",
-
+    mixins: [FooterMixin],
     data() {
       return {
         projectList: [],
@@ -35,6 +38,7 @@
 
     },
     mounted() {
+      this.footer(this.$refs.project.offsetHeight)
       this.scrollReveal.reveal('.reveal-rotate', {
         // 动画的时长
         duration: 500,
@@ -73,6 +77,7 @@
 
 <style scoped lang="stylus">
   .project-wrapper
+    overflow auto
     ul
       padding 10px
       li

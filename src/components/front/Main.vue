@@ -242,8 +242,8 @@
         }
         .gif::before {
           content ''
-          width 100%
-          height 100%
+          width 100px
+          height 100px
           border-radius: 50%;
           background: url("/static/images/bg2.gif") no-repeat;
           -webkit-background-size: cover
@@ -253,8 +253,8 @@
         }
         .gif::after {
           content ''
-          width 100%
-          height 100%
+          width px
+          height px
           transform rotateY(-180deg)
           border-radius: 50%;
           background: url("/static/images/bg3.gif") no-repeat;

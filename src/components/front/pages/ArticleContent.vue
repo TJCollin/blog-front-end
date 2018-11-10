@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" ref="articleContent">
     <div class="content-box">
       <h1 class="article-title">{{articleInfo.title}}</h1>
       <mavon-editor :boxShadow="boxShadow" v-model="articleInfo.content" :subfield="false" :toolbarsFlag="false" defaultOpen="preview"></mavon-editor>
@@ -29,10 +29,12 @@
 
 <script>
   import {mavonEditor} from 'mavon-editor'
+  import FooterMixin from '@/utils/mixin/footer-mixin'
   import 'mavon-editor/dist/css/index.css'
   // import BaseConfig from '@/config'
 	export default {
 		name: "ArticleInfo",
+    mixins: [FooterMixin],
     components: {
 		  'mavon-editor': mavonEditor
     },
@@ -57,6 +59,9 @@
         (res) => {
           if (res.data.code) {
             this.articleInfo = res.data.result[0]
+            this.$nextTick(()=>{
+              this.footer(this.$refs.articleContent.offsetHeight)
+            })
             // this.content = res.data.result.content
             // this.title = res.data.result.title
           }
@@ -68,6 +73,7 @@
 
 <style lang="stylus">
   .wrapper
+    overflow auto
     position relative
     .content-box
       margin-top: 10px

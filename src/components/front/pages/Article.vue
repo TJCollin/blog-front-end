@@ -1,5 +1,5 @@
 <template>
-  <div class="aricle-part">
+  <div class="aricle-part" ref="article">
     <div class="article reveal-left">
       <ul>
         <li class="item" v-for="article in articleList" :key="article._id">
@@ -45,9 +45,11 @@
 </template>
 
 <script>
+  import FooterMixin from '@/utils/mixin/footer-mixin'
   import scrollReveal from 'scrollreveal';
   export default {
     name: "Article",
+    mixins: [FooterMixin],
     data() {
       return {
         total: 1,
@@ -64,6 +66,7 @@
       this.getTagList()
     },
     mounted() {
+      this.footer(this.$refs.article.offsetHeight)
       this.scrollReveal.reveal('.reveal-top', {
         // 动画的时长
         duration: 500,
