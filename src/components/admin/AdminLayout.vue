@@ -63,6 +63,7 @@
           height 100%;
           background-color: #fff;
           padding 20px
+          overflow scroll
       .el-footer
         background-color: #f0f2f5;
         padding 0 10px

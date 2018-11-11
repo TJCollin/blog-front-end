@@ -163,11 +163,9 @@
 
   .main
     display flex
-    height 100%
     flex-direction column
 
     .editor
-      flex 1
       height 700px
       display flex
       ol
