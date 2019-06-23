@@ -197,7 +197,7 @@ Axios._get = (url, parmas) => {
 
   })
 }
-Axios._delete = (url, data) => {
+Axios._delete = (url, params) => {
   return new Promise((resolve, reject) => {
     let key = checkUrl(url)
     if (key) {
@@ -207,7 +207,7 @@ Axios._delete = (url, data) => {
       Axios({
         url,
         method: 'delete',
-        data: data,
+        params: params,
         cancelToken: new CancelToken(c => {
           cancel = c
         })
