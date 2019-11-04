@@ -18,6 +18,9 @@
             </li>
           </ul>
         </div>
+        <div class="menu-icon">
+          <i class="iconfont icon-search"></i>
+        </div>
         <div class="search">
           <div class="input-box">
             <input type="text" placeholder="搜索...">
@@ -238,9 +241,6 @@
     transform: translateX(-100%);
   }
 
-  //.slide-fade-leave {
-  //    transform: translateX(-100%);
-  //}
   .footer-fixed
     position fixed
     left 0
@@ -254,81 +254,120 @@
     top: 0;
     bottom: 0;
 
-  .header
-    width 100%
-    height 60px
-    border-bottom 1px solid #eee
-    background-color: #fff;
-    .center
-      width 900px
-      height 100%
-      margin 0 auto
-      .nav
-        float: left;
-        ul
-
-          li
-            float: left
-            a
-              height 60px
-              font-size 1.5rem
-              padding 0 20px
-              line-height: 60px
-              text-decoration none
-              display block
-              color #8c8c8c
-
-              &:hover
-                color #409EFF
-          li.active
-            a
-              color #409EFF
-      .search
-        float right
+    .header
+      width 100%
+      height 60px
+      border-bottom 1px solid #eee
+      background-color: #fff;
+      position relative
+      .center
+        width 80%
         height 100%
-        display flex
-        justify-content flex-end
-        -webkit-align-items center
-        align-items center
-        .input-box
-          height 30px
-          width 150px
-          flex 1
-          border-bottom 1px solid #eee
-          input
-            border none
-            outline none
-            width 100%
-            height: 100%
-        .search-icon
-          width 30px
-          height 30px
-          border-bottom 1px solid #eee
+        margin 0 auto
+        .nav
+          float: left;
+          ul
+            overflow auto
+            li
+              float: left
+              a
+                height 60px
+                font-size 1.5rem
+                padding 0 20px
+                line-height: 60px
+                text-decoration none
+                display block
+                color #8c8c8c
+
+                &:hover
+                  color #409EFF
+            li.active
+              a
+                color #409EFF
+        .menu-icon
+          display none
+        .search
+          float right
+          height 100%
+          width 30%
           display flex
+          justify-content flex-end
+          -webkit-align-items center
           align-items center
-          justify-content center
-          i
-            display block
-            cursor: pointer;
+          .input-box
+            height 30px
+            flex 1
+            border-bottom 1px solid #eee
+            input
+              border none
+              outline none
+              width 100%
+              height: 100%
+          .search-icon
+            width 30px
+            height 30px
+            border-bottom 1px solid #eee
+            display flex
+            align-items center
+            justify-content center
+            i
+              display block
+              cursor: pointer;
 
-  .content
-    margin 0 auto
-    width: 900px
-    padding-bottom 20px
-    #canvas
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      z-index: -1;
+    .content
+      margin 0 auto
+      width: 80%
+      padding-bottom 20px
+      #canvas
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
 
-  .footer
-    width: 100%
-    height: 60px
-    background-color: #fff;
-    border-top: 1px solid #eee
-    p
-      text-align center
-      line-height 60px
+    .footer
+      width: 100%
+      height: 60px
+      background-color: #fff;
+      border-top: 1px solid #eee
+      p
+        text-align center
+        line-height 60px
+
+  @media only screen and (max-width: 800px)
+    .main{
+      .header {
+
+        .center {
+          .nav {
+            position absolute
+            height 100%
+
+            ul {
+              clear both
+              width 120px
+              padding-top 60px
+              li {
+                width 100px
+              }
+            }
+          }
+          .menu-icon {
+            float left
+            display flex
+            align-items center
+            justify-content center
+            width 60px
+            height 60px
+          }
+          .search {
+            width 80%
+          }
+        }
+      }
+    }
+
+
+
 
 
 </style>

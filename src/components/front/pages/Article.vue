@@ -1,9 +1,11 @@
 <template>
-  <div class="aricle-part" ref="article">
+  <div class="article-part" ref="article">
     <div class="article reveal-left">
       <ul>
         <li class="item" v-for="article in articleList" :key="article._id">
-          <h3 class="title"><router-link :to="{name: 'ArticleContent',params:{articleId: article._id}}">{{article.title}}</router-link></h3>
+          <h3 class="title">
+            <router-link :to="{name: 'ArticleContent',params:{articleId: article._id}}">{{article.title}}</router-link>
+          </h3>
           <p class="abstract">{{article.abstract}}</p>
           <p class="article-info">
             <span class="info">{{article.updatedAt.split(' ')[0]}}</span>
@@ -30,7 +32,9 @@
       <div class="hot">
         <h3 class="title">热门文章</h3>
         <ul>
-          <li v-for="hot in hotList" :key="hot._id"><router-link :to="hot._id">{{hot.title}}</router-link></li>
+          <li v-for="hot in hotList" :key="hot._id">
+            <router-link :to="hot._id">{{hot.title}}</router-link>
+          </li>
         </ul>
       </div>
       <div class="tags">
@@ -45,125 +49,130 @@
 </template>
 
 <script>
-  import FooterMixin from '@/utils/mixin/footer-mixin'
-  import scrollReveal from 'scrollreveal';
-  export default {
-    name: "Article",
-    mixins: [FooterMixin],
-    data() {
-      return {
-        total: 1,
-        currentPage: 1,
-        articleList: [],
-        hotList: [],
-        tagList: [],
-        scrollReveal: scrollReveal()
-      }
+	import FooterMixin from '@/utils/mixin/footer-mixin'
+	import scrollReveal from 'scrollreveal';
 
-    },
-    created() {
-      this.getArticleListByPage()
-      this.getTagList()
-    },
-    mounted() {
-      this.footer(this.$refs.article.offsetHeight)
-      this.scrollReveal.reveal('.reveal-top', {
-        // 动画的时长
-        duration: 500,
-        // 延迟时间
-        delay: 200,
-        // 动画开始的位置，'bottom', 'left', 'top', 'right'
-        origin: 'bottom',
-        // 回滚的时候是否再次触发动画
-        reset: false,
-        // 在移动端是否使用动画
-        mobile: false,
-        // 滚动的距离，单位可以用%，rem等
-        distance: '50px',
-        // 其他可用的动画效果
-        opacity: 0.001,
-        easing: 'linear',
-      });
-      this.scrollReveal.reveal('.reveal-left', {
-        // 动画的时长
-        duration: 500,
-        // 延迟时间
-        delay: 200,
-        // 动画开始的位置，'bottom', 'left', 'top', 'right'
-        origin: 'left',
-        // 回滚的时候是否再次触发动画
-        reset: false,
-        // 在移动端是否使用动画
-        mobile: false,
-        // 滚动的距离，单位可以用%，rem等
-        distance: '50px',
-        // 其他可用的动画效果
-        opacity: 0.001,
-        easing: 'linear',
-      });
+	export default {
+		name: "Article",
+		mixins: [FooterMixin],
+		data() {
+			return {
+				total: 1,
+				currentPage: 1,
+				articleList: [],
+				hotList: [],
+				tagList: [],
+				scrollReveal: scrollReveal()
+			}
 
-    },
-    methods: {
-      getTagList() {
-        this.$axios._get('tag/tag_list').then(
-          (res) => {
-            if (res.data.code) {
-              this.tagList = res.data.result.res_limit
-            }
-          }
-        ).catch(
-          (e) => {
-            console.log(e)
-          })
-      },
-      getArticleListByPage() {
-        let self = this
-        self.$axios._get('article/article_list', {page: this.currentPage}).then(
-          (res) => {
-            if (res.data.code) {
-              self.articleList = res.data.result.res_limit
-              self.total = res.data.result.total
-              if(Object.is(self.hotList.length, 0)) {
-                self.hotList = res.data.result.res_limit
-              }
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch(
-          (e) => {
-            console.log(e)
-          }
-        )
+		},
+		created() {
+			this.getArticleListByPage()
+			this.getTagList()
+		},
+		mounted() {
+			this.footer(this.$refs.article.offsetHeight)
+			this.scrollReveal.reveal('.reveal-top', {
+				// 动画的时长
+				duration: 500,
+				// 延迟时间
+				delay: 200,
+				// 动画开始的位置，'bottom', 'left', 'top', 'right'
+				origin: 'bottom',
+				// 回滚的时候是否再次触发动画
+				reset: false,
+				// 在移动端是否使用动画
+				mobile: false,
+				// 滚动的距离，单位可以用%，rem等
+				distance: '50px',
+				// 其他可用的动画效果
+				opacity: 0.001,
+				easing: 'linear',
+			});
+			this.scrollReveal.reveal('.reveal-left', {
+				// 动画的时长
+				duration: 500,
+				// 延迟时间
+				delay: 200,
+				// 动画开始的位置，'bottom', 'left', 'top', 'right'
+				origin: 'left',
+				// 回滚的时候是否再次触发动画
+				reset: false,
+				// 在移动端是否使用动画
+				mobile: false,
+				// 滚动的距离，单位可以用%，rem等
+				distance: '50px',
+				// 其他可用的动画效果
+				opacity: 0.001,
+				easing: 'linear',
+			});
 
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
-    }
-  }
+		},
+		methods: {
+			getTagList() {
+				this.$axios._get('tag/tag_list').then(
+					(res) => {
+						if (res.data.code) {
+							this.tagList = res.data.result.res_limit
+						}
+					}
+				).catch(
+					(e) => {
+						console.log(e)
+					})
+			},
+			getArticleListByPage() {
+				let self = this
+				self.$axios._get('article/article_list', {page: this.currentPage}).then(
+					(res) => {
+						if (res.data.code) {
+							self.articleList = res.data.result.res_limit
+							self.total = res.data.result.total
+							if (Object.is(self.hotList.length, 0)) {
+								self.hotList = res.data.result.res_limit
+							}
+						} else {
+							self.$message.error(res.data.message)
+						}
+					}
+				).catch(
+					(e) => {
+						console.log(e)
+					}
+				)
+
+			},
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`);
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`);
+			},
+		}
+	}
 </script>
 
 <style scoped lang="stylus">
-  .aricle-part
+  .article-part
     width 100%
     display flex
     justify-content space-between
     align-items: stretch
+
     .article
-      width 620px
+      width 70%
       display flex
       flex-direction column
+
       ul
         flex 1
         padding: 0 30px 20px 10px
+
         li
           padding-top 15px
           padding-bottom 15px
           border-bottom: 1px solid #eee
+
           .title
             margin-bottom: 15px
             width fit-content
@@ -173,6 +182,7 @@
               text-decoration none
               font-size 20px
               font-weight: 400
+
             &::after
               content: ''
               width 100%
@@ -188,13 +198,16 @@
               -o-transition: all 0.3s
               transition: all 0.3s
               background-color: #555;
+
             &:hover::after
               transform: scaleX(1);
 
           .abstract
             padding-bottom 15px
+
           .article-info
             font-size 12px
+
             .dot
               i
                 font-size: 12px
@@ -202,14 +215,18 @@
       .pagination
         display flex
         justify-content center
+
     .side
-      width 260px
+      width 30%
+
       .hot
         padding-top 20px
+
         .title
           font-size 16px
           font-weight 400
           padding 10px 0
+
         ul
           li
             a
@@ -220,20 +237,40 @@
               line-height: 40px
               text-overflow ellipsis
               text-indent 10px
+
               &:hover
                 text-decoration underline
+
       .tags
         padding-top: 20px
+
         .title
           font-size: 16px
+
         .tag-list
           padding-left: 10px
+
           .tag
             float left
             padding 0 10px
+
             a
               line-height: 40px
+
               &:hover
                 text-decoration underline
+
+  @media only screen and (max-width: 800px)
+    .article-part {
+      justify-content center
+      .article {
+        width 90%
+      }
+      .side {
+        display none
+      }
+    }
+
+
 
 </style>

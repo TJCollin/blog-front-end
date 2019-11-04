@@ -22,13 +22,10 @@
             </li>
           </ul>
           <div class="gif"></div>
-          <!--<img class="gif" src="static/images/bg2.gif">-->
         </div>
       </div>
       <div class="content">
-        <!--<img class="gif" src="static/images/bg10.gif">-->
         <div class="gif reveal-left"></div>
-
         <div class="main-nav reveal-left">
           <div class="link">
             <router-link to="">首页</router-link>
@@ -131,14 +128,14 @@
     .box {
       display: flex;
       height: 100%;
-      width: 1000px;
+      width: 80%;
       position: relative;
       margin: 0 auto;
       clear both
       z-index: 1
 
       .aside {
-        flex: 1;
+        width 50%
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -164,10 +161,10 @@
             }
 
             img {
-              width: 5vw;
-              height: 5vw;
-              min-width: 100px;
-              min-height: 100px;
+              width: 100px;
+              height: 100px;
+              /*min-width: 100px;*/
+              /*min-height: 100px;*/
               border-radius: 50%;
               background-color: #fff;
               transition: all 1s;
@@ -231,12 +228,12 @@
         }
 
         .gif {
-          width: 5vw;
-          height: 5vw;
+          width: 100px;
+          height: 100px;
           /*border-radius: 50%;*/
           margin-top: 5vw;
-          min-width: 100px;
-          min-height: 100px;
+          /*min-width: 100px;*/
+          /*min-height: 100px;*/
           transform-style: preserve-3d;
           transition all 1s
         }
@@ -253,8 +250,8 @@
         }
         .gif::after {
           content ''
-          width px
-          height px
+          width 100px
+          height 100px
           transform rotateY(-180deg)
           border-radius: 50%;
           background: url("/static/images/bg3.gif") no-repeat;
@@ -268,7 +265,7 @@
       }
 
       .content {
-        flex: 1;
+        width 50%
         display: flex;
         justify-content: center;
         align-items: center;
@@ -278,7 +275,7 @@
         .gif {
           width: 100%;
           height: 80px;
-          min-width: 100px;
+          /*min-width: 100px;*/
           background: url("/static/images/bg10.gif") no-repeat;
 
           background-size: contain;
@@ -286,7 +283,7 @@
         }
 
         .main-nav {
-          min-width: 400px;
+          /*min-width: 400px;*/
           min-height: 150px;
           display: flex;
           align-items: center;
@@ -297,11 +294,13 @@
               text-align: center;
               text-decoration: none;
               float: left;
-              min-width: 100px;
+              width 100px
+              height 100px
+              /*min-width: 100px;*/
               margin-left: 40px;
               border-radius: 50%;
               border: 1px solid #ccc;
-              min-height: 100px;
+              /*min-height: 100px;*/
               line-height: 100px;
               font-size: 20px;
 
@@ -410,4 +409,33 @@
   .left-layer:hover {
     background-position: 300px 0;
   }
+
+  @media only screen and (max-width: 800px)
+    .main {
+      .box {
+        min-width 480px
+        flex-direction column
+        width 100%
+        .aside {
+          width 100%
+          height 50%
+          .gif {
+            display none
+          }
+        }
+        .content {
+          height 50%
+          width 100%
+          .gif {
+            display none
+          }
+        }
+      }
+      .left-layer{
+        width 0
+      }
+      .right-layer {
+        width 0
+      }
+    }
 </style>
