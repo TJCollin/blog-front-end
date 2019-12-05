@@ -129,9 +129,7 @@
       display flex
       justify-content space-between
       .user-info
-        width 620px
-        /*float: left*/
-        /*height 200px*/
+        width 65%
         border 1px solid #eee
         padding 10px
         background: url("/static/images/user-info-bg.png");
@@ -161,10 +159,8 @@
 
       .user-image
         background: url("/static/images/user-info-bg.png");
-        width 260px
+        width 30%
         padding 10px
-        /*float right*/
-        /*height 200px*/
         border 1px solid #eee
         display flex
         justify-content center
@@ -197,7 +193,6 @@
       height 200px
       margin-top 20px
       padding 10px
-      /*float left*/
       border 1px solid #eee
       .inner-box
         width 100%
@@ -225,4 +220,23 @@
         &:hover
           background-color: #eee;
 
+
+
+
+  @media screen and (max-width: 800px) {
+    .about-part {
+      .user {
+        .user-info {
+          width 70%
+          border-right 0
+        }
+        .user-image {
+          width 30%
+          border-left 0
+
+        }
+      }
+
+    }
+  }
 </style>

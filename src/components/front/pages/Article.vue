@@ -51,6 +51,8 @@
 <script>
 	import FooterMixin from '@/utils/mixin/footer-mixin'
 	import scrollReveal from 'scrollreveal';
+	import {mapGetters} from 'vuex';
+	import {debounce} from "../../../utils/common";
 
 	export default {
 		name: "Article",
@@ -66,6 +68,15 @@
 			}
 
 		},
+    computed: {
+			...mapGetters(['getKeywords'])
+    },
+    watch: {
+			getKeywords(newVal) {
+				debounce(this.getArticleListByPage(), 300)
+
+      }
+    },
 		created() {
 			this.getArticleListByPage()
 			this.getTagList()
@@ -123,7 +134,7 @@
 			},
 			getArticleListByPage() {
 				let self = this
-				self.$axios._get('article/article_list', {page: this.currentPage}).then(
+				self.$axios._get('article/article_list', {page: this.currentPage, keywords: this.getKeywords}).then(
 					(res) => {
 						if (res.data.code) {
 							self.articleList = res.data.result.res_limit

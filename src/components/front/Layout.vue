@@ -2,7 +2,7 @@
   <div class="main">
     <div class="header">
       <div class="center">
-        <div class="nav">
+        <div class="nav" :class="{showNav: showNav}">
           <ul>
             <li>
               <router-link to="/">首页</router-link>
@@ -19,11 +19,11 @@
           </ul>
         </div>
         <div class="menu-icon">
-          <i class="iconfont icon-search"></i>
+          <i class="iconfont icon-menu-layout" @click="toggleNav"></i>
         </div>
         <div class="search">
           <div class="input-box">
-            <input type="text" placeholder="搜索...">
+            <input type="text" placeholder="搜索文章标题..." v-model="keywordsVal">
           </div>
           <div class="search-icon">
             <i class="iconfont icon-search"></i>
@@ -49,186 +49,205 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  export default {
-    name: "Layout",
-    mounted() {
-      this.bgCanvas()
+	import { mapGetters, mapActions } from 'vuex'
+  import {debounce} from "../../utils/common";
+
+	export default {
+		name: "Layout",
+		mounted() {
+			this.bgCanvas()
+		},
+		data() {
+			return {
+				showNav: false,
+        keywordsVal: ''
+			}
+		},
+		computed: {
+			...mapGetters([
+				'getFooterFixed'
+			])
+		},
+		components: {
+
+		},
+    watch: {
+			keywordsVal(newVal) {
+				this.$store.commit('SET_KEYWORDS', {keywords: this.keywordsVal})
+			}
     },
-    computed: {
-      ...mapGetters([
-        'getFooterFixed'
-      ])
-    },
-    components: {
+		methods: {
+			...mapActions(['setKeywords']),
+			toggleNav() {
+				console.log('click')
+				this.showNav = !this.showNav
+				console.log('show', this.showNav)
+			},
+			isActive(str) {
+				if (this.$route.path.includes(str)) {
+					return 'active'
+				}
+				return ''
 
-    },
-    methods: {
-      isActive(str) {
-        if (this.$route.path.includes(str)) {
-          return 'active'
-        }
-        return ''
+			},
+			bgCanvas() {
+				let canvas = null
+				if (!this.canvasDom) {
+					this.canvasDom = document.querySelector('#canvas')
+					canvas = this.canvasDom
+				} else {
+					canvas = this.canvasDom
+				}
+				let ctx = canvas.getContext("2d")
+				let cw = canvas.width = window.innerWidth
+				let cx = cw / 2
+				let ch = canvas.height = window.innerHeight
+				let cy = ch / 2
 
-      },
-      bgCanvas() {
-        let canvas = null
-        if (!this.canvasDom) {
-          this.canvasDom = document.querySelector('#canvas')
-          canvas = this.canvasDom
-        } else {
-          canvas = this.canvasDom
-        }
-        let ctx = canvas.getContext("2d")
-        let cw = canvas.width = window.innerWidth
-        let cx = cw / 2
-        let ch = canvas.height = window.innerHeight
-        let cy = ch / 2
+				ctx.fillStyle = "#ccc";
+				const linesNum = 16;
+				let linesRy = [];
+				let requestId = null;
 
-        ctx.fillStyle = "#ccc";
-        const linesNum = 16;
-        let linesRy = [];
-        let requestId = null;
+				function Line(flag) {
+					this.flag = flag;
+					this.a = {};
+					this.b = {};
+					if (flag == "v") {
+						this.a.y = 0;
+						this.b.y = ch;
+						this.a.x = randomIntFromInterval(0, ch);
+						this.b.x = randomIntFromInterval(0, ch);
+					} else if (flag == "h") {
+						this.a.x = 0;
+						this.b.x = cw;
+						this.a.y = randomIntFromInterval(0, cw);
+						this.b.y = randomIntFromInterval(0, cw);
+					}
+					this.va = randomIntFromInterval(25, 100) / 100;
+					this.vb = randomIntFromInterval(25, 100) / 100;
 
-        function Line(flag) {
-          this.flag = flag;
-          this.a = {};
-          this.b = {};
-          if (flag == "v") {
-            this.a.y = 0;
-            this.b.y = ch;
-            this.a.x = randomIntFromInterval(0, ch);
-            this.b.x = randomIntFromInterval(0, ch);
-          } else if (flag == "h") {
-            this.a.x = 0;
-            this.b.x = cw;
-            this.a.y = randomIntFromInterval(0, cw);
-            this.b.y = randomIntFromInterval(0, cw);
-          }
-          this.va = randomIntFromInterval(25, 100) / 100;
-          this.vb = randomIntFromInterval(25, 100) / 100;
+					this.draw = function () {
+						ctx.strokeStyle = "#f4f4f4";
+						ctx.beginPath();
+						ctx.moveTo(this.a.x, this.a.y);
+						ctx.lineTo(this.b.x, this.b.y);
+						ctx.stroke();
+					}
 
-          this.draw = function () {
-            ctx.strokeStyle = "#f4f4f4";
-            ctx.beginPath();
-            ctx.moveTo(this.a.x, this.a.y);
-            ctx.lineTo(this.b.x, this.b.y);
-            ctx.stroke();
-          }
+					this.update = function () {
+						if (this.flag == "v") {
+							this.a.x += this.va;
+							this.b.x += this.vb;
+						} else if (flag == "h") {
+							this.a.y += this.va;
+							this.b.y += this.vb;
+						}
 
-          this.update = function () {
-            if (this.flag == "v") {
-              this.a.x += this.va;
-              this.b.x += this.vb;
-            } else if (flag == "h") {
-              this.a.y += this.va;
-              this.b.y += this.vb;
-            }
+						this.edges();
+					}
 
-            this.edges();
-          }
+					this.edges = function () {
+						if (this.flag == "v") {
+							if (this.a.x < 0 || this.a.x > cw) {
+								this.va *= -1;
+							}
+							if (this.b.x < 0 || this.b.x > cw) {
+								this.vb *= -1;
+							}
+						} else if (flag == "h") {
+							if (this.a.y < 0 || this.a.y > ch) {
+								this.va *= -1;
+							}
+							if (this.b.y < 0 || this.b.y > ch) {
+								this.vb *= -1;
+							}
+						}
+					}
 
-          this.edges = function () {
-            if (this.flag == "v") {
-              if (this.a.x < 0 || this.a.x > cw) {
-                this.va *= -1;
-              }
-              if (this.b.x < 0 || this.b.x > cw) {
-                this.vb *= -1;
-              }
-            } else if (flag == "h") {
-              if (this.a.y < 0 || this.a.y > ch) {
-                this.va *= -1;
-              }
-              if (this.b.y < 0 || this.b.y > ch) {
-                this.vb *= -1;
-              }
-            }
-          }
+				}
 
-        }
+				for (var i = 0; i < linesNum; i++) {
+					var flag = i % 2 == 0 ? "h" : "v";
+					var l = new Line(flag);
+					linesRy.push(l);
+				}
 
-        for (var i = 0; i < linesNum; i++) {
-          var flag = i % 2 == 0 ? "h" : "v";
-          var l = new Line(flag);
-          linesRy.push(l);
-        }
+				function Draw() {
+					requestId = window.requestAnimationFrame(Draw);
+					ctx.clearRect(0, 0, cw, ch);
 
-        function Draw() {
-          requestId = window.requestAnimationFrame(Draw);
-          ctx.clearRect(0, 0, cw, ch);
+					for (var i = 0; i < linesRy.length; i++) {
+						var l = linesRy[i];
+						l.draw();
+						l.update();
+					}
+					for (var i = 0; i < linesRy.length; i++) {
+						var l = linesRy[i];
+						for (var j = i + 1; j < linesRy.length; j++) {
+							var l1 = linesRy[j]
+							Intersect2lines(l, l1);
+						}
+					}
+				}
 
-          for (var i = 0; i < linesRy.length; i++) {
-            var l = linesRy[i];
-            l.draw();
-            l.update();
-          }
-          for (var i = 0; i < linesRy.length; i++) {
-            var l = linesRy[i];
-            for (var j = i + 1; j < linesRy.length; j++) {
-              var l1 = linesRy[j]
-              Intersect2lines(l, l1);
-            }
-          }
-        }
+				function Init() {
+					linesRy.length = 0;
+					for (var i = 0; i < linesNum; i++) {
+						var flag = i % 2 == 0 ? "h" : "v";
+						var l = new Line(flag);
+						linesRy.push(l);
+					}
 
-        function Init() {
-          linesRy.length = 0;
-          for (var i = 0; i < linesNum; i++) {
-            var flag = i % 2 == 0 ? "h" : "v";
-            var l = new Line(flag);
-            linesRy.push(l);
-          }
+					if (requestId) {
+						window.cancelAnimationFrame(requestId);
+						requestId = null;
+					}
 
-          if (requestId) {
-            window.cancelAnimationFrame(requestId);
-            requestId = null;
-          }
+					cw = canvas.width = window.innerWidth;
+					cx = cw / 2;
+					ch = canvas.height = window.innerHeight;
+					cy = ch / 2;
 
-          cw = canvas.width = window.innerWidth;
-          cx = cw / 2;
-          ch = canvas.height = window.innerHeight;
-          cy = ch / 2;
+					Draw();
+				};
 
-          Draw();
-        };
+				setTimeout(function () {
+					Init();
+					addEventListener('resize', Init, false);
+				}, 15);
 
-        setTimeout(function () {
-          Init();
-          addEventListener('resize', Init, false);
-        }, 15);
+				function Intersect2lines(l1, l2) {
+					var p1 = l1.a,
+						p2 = l1.b,
+						p3 = l2.a,
+						p4 = l2.b;
+					var denominator = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
+					var ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denominator;
+					var ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denominator;
+					var x = p1.x + ua * (p2.x - p1.x);
+					var y = p1.y + ua * (p2.y - p1.y);
+					if (ua > 0 && ub > 0) {
+						markPoint({
+							x: x,
+							y: y
+						})
+					}
+				}
 
-        function Intersect2lines(l1, l2) {
-          var p1 = l1.a,
-            p2 = l1.b,
-            p3 = l2.a,
-            p4 = l2.b;
-          var denominator = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
-          var ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denominator;
-          var ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denominator;
-          var x = p1.x + ua * (p2.x - p1.x);
-          var y = p1.y + ua * (p2.y - p1.y);
-          if (ua > 0 && ub > 0) {
-            markPoint({
-              x: x,
-              y: y
-            })
-          }
-        }
+				function markPoint(p) {
+					ctx.beginPath();
+					ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+					ctx.fillStyle = "#eeeeee";
+					ctx.fill();
+				}
 
-        function markPoint(p) {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
-          ctx.fillStyle = "#eeeeee";
-          ctx.fill();
-        }
-
-        function randomIntFromInterval(mn, mx) {
-          return ~~(Math.random() * (mx - mn + 1) + mn);
-        }
-      },
-    }
-  }
+				function randomIntFromInterval(mn, mx) {
+					return ~~(Math.random() * (mx - mn + 1) + mn);
+				}
+			},
+		}
+	}
 </script>
 
 <style scoped lang="stylus">
@@ -261,7 +280,7 @@
       background-color: #fff;
       position relative
       .center
-        width 80%
+        width 90%
         height 100%
         margin 0 auto
         .nav
@@ -339,17 +358,28 @@
 
         .center {
           .nav {
-            position absolute
-            height 100%
+            position fixed
+            width 20%
+            min-width 120px
+            left: -20%
+            bottom 60px
+            top 60px
+            padding-left:5%
+            background-color #eee
+            transition left 1.5s
+            z-index 10
+
 
             ul {
               clear both
               width 120px
-              padding-top 60px
               li {
                 width 100px
               }
             }
+          }
+          .nav.showNav {
+            left 0
           }
           .menu-icon {
             float left
@@ -358,6 +388,9 @@
             justify-content center
             width 60px
             height 60px
+            i.iconfont {
+              font-size 20px
+            }
           }
           .search {
             width 80%

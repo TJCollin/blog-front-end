@@ -2,7 +2,7 @@
   <div class="list-box">
     <div class="search">
       <el-input placeholder="搜索文章标题" clearable v-model="keywords" class="input-with-select">
-        <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="getArticleListByPage"></el-button>
       </el-input>
     </div>
     <el-table
@@ -88,9 +88,13 @@
       this.getArticleListByPage()
     },
     methods: {
+	    searchArticleList() {
+
+      },
       getArticleListByPage() {
         let self = this
-        self.$axios._get('article/article_list',{page: this.currentPage}).then(
+        console.log('get')
+        self.$axios._get('article/article_list',{page: this.currentPage, keywords: this.keywords}).then(
           (res) => {
             if (res.data.code) {
               self.articleList = res.data.result.res_limit
