@@ -71,15 +71,16 @@
     computed: {
 			...mapGetters(['getKeywords'])
     },
-    watch: {
-			getKeywords(newVal) {
-				debounce(this.getArticleListByPage(), 300)
-
-      }
-    },
+    // watch: {
+		// 	getKeywords(newVal) {
+		// 		debounce(this.getArticleListByPage(), 300)
+    //
+    //   }
+    // },
 		created() {
 			this.getArticleListByPage()
 			this.getTagList()
+      this.$watch('getKeywords', debounce(this.getArticleListByPage, 300))
 		},
 		mounted() {
 			this.footer(this.$refs.article.offsetHeight)

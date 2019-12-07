@@ -74,6 +74,8 @@
 </template>
 
 <script>
+  import {debounce} from "../../../utils/common";
+
   export default {
     name: "ArticleList",
     data() {
@@ -86,6 +88,8 @@
     },
     created() {
       this.getArticleListByPage()
+      this.$watch('keywords',debounce(this.getArticleListByPage, 300))
+
     },
     methods: {
 	    searchArticleList() {
