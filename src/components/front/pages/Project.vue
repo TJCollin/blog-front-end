@@ -9,8 +9,8 @@
           <p class="project-title">{{project.projectName}}</p>
           <p class="project-desc">{{project.projectDesc}}</p>
           <div class="project-links">
-            <div class="link view-link"><a href=""><i class="iconfont icon-eye"></i>view</a></div>
-            <div class="link source-code"><a href=""><i class="iconfont icon-code"></i>github</a></div>
+            <div class="link view-link"><a :href="project.projectUrl"><i class="iconfont icon-eye"></i>view</a></div>
+            <div class="link source-code"><a :href="project.projectCode"><i class="iconfont icon-code"></i>github</a></div>
 
           </div>
         </div>
