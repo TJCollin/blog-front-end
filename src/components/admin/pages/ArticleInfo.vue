@@ -28,6 +28,8 @@
   import {mavonEditor} from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
   import BaseConfig from '@/config'
+  import {Form, Button, FormItem, Input, Select} from "element-ui";
+
 
   export default {
     name: "ArticleInfo",
@@ -89,7 +91,12 @@
         })
     },
     components: {
-      'm-editor': mavonEditor
+      'm-editor': mavonEditor,
+	    'el-form': Form,
+	    'el-form-item':FormItem,
+	    'el-button':Button,
+	    'el-input':Input,
+      'el-select': Select
     },
     methods: {
       imgAdd(pos, $file) {

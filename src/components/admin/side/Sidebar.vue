@@ -46,8 +46,16 @@
 </template>
 
 <script>
+  import {Menu, Submenu, Row, Col, MenuItem } from 'element-ui';
   export default {
     name: "SideBar",
+    components: {
+    	'el-menu': Menu,
+      'el-submenu': Submenu,
+      'el-row': Row,
+      'el-col': Col,
+      'el-menu-item': MenuItem
+    },
     created() {
       if (window.localStorage.getItem('BLOG_TOKEN')) {
         let tokenMsg = JSON.parse(window.localStorage.getItem('BLOG_TOKEN'))

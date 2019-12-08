@@ -114,7 +114,9 @@
 </template>
 
 <script>
-  export default {
+	import {Form, Button, FormItem, Input, Tag, Table, TableColumn, Dialog, Pagination} from "element-ui";
+
+	export default {
     name: "ProjectList",
     data() {
       return {
@@ -135,6 +137,17 @@
         projectList: []
       }
     },
+		components: {
+			'el-form':Form,
+			'el-form-item':FormItem,
+			'el-button':Button,
+			'el-input':Input,
+			'el-tag':Tag,
+			'el-table':Table,
+			'el-table-column':TableColumn,
+			'el-dialog':Dialog,
+      'el-pagination': Pagination
+		},
     created() {
       this.getProjectListByPage(1)
     },

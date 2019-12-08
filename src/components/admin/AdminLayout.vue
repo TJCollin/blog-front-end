@@ -27,6 +27,7 @@
 
 <script>
   import Sidebar from '@/components/admin/side/Sidebar'
+  import {Container, Footer, Main, Aside} from 'element-ui';
 
   export default {
     name: "AdminLayout",
@@ -36,7 +37,11 @@
       }
     },
     components: {
-      'sidebar': Sidebar
+      'sidebar': Sidebar,
+      'el-container': Container,
+      'el-footer':Footer,
+      'el-main':Main,
+      'el-aside': Aside
     }
 
   }

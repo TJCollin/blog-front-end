@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import {Form, Button, FormItem, Input} from "element-ui";
   export default {
     name: "AdminLogin",
     data() {
@@ -35,6 +36,13 @@
           password: [{required: true, message: '密码不能为空哟', trigger: 'blur'}]
         }
       }
+    },
+    components: {
+    	'el-form':Form,
+      'el-form-item':FormItem,
+      'el-button': Button,
+      'el-input': Input,
+
     },
     methods: {
       login() {

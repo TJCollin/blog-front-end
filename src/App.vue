@@ -9,6 +9,12 @@
 <script>
   export default {
     name: 'App',
+    mounted() {
+	    const loaderWrapper = document.getElementById('loaderWrapper');
+	    const preLoader = document.getElementById('preLoader');
+	    const circle = document.getElementById('circle');
+	    loaderWrapper.style.display = 'none';
+    }
   }
 </script>
 

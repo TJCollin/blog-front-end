@@ -315,3 +315,84 @@ i {
 .icon-github::before {
   content: "\e601";
 }
+
+/* preLoader start*/
+#preLoader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0d0d0d;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+#preLoader #circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 2400ms linear infinite;
+  animation: original 2400ms linear infinite;
+}
+
+#preLoader #circle::before {
+  content: "";
+  position: absolute;
+  top: 7.5px;
+  left: 7.5px;
+  right: 7.5px;
+  bottom: 7.5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 2700ms linear infinite;
+  animation: original 2700ms linear infinite;
+}
+
+#preLoader #circle::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 1800ms linear infinite;
+  animation: original 1800ms linear infinite;
+}
+
+@-webkit-keyframes original {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes original {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* preLoader end*/
+
+/*loaderWrapper end*/

@@ -75,6 +75,8 @@
 
 <script>
   import {debounce} from "../../../utils/common";
+  import {Button, Input, Tag, Table, TableColumn, Pagination} from "element-ui";
+
 
   export default {
     name: "ArticleList",
@@ -86,6 +88,14 @@
         keywords: ''
       }
     },
+	  components: {
+		  'el-button':Button,
+		  'el-input':Input,
+		  'el-tag':Tag,
+		  'el-table':Table,
+		  'el-table-column':TableColumn,
+      'el-pagination': Pagination
+	  },
     created() {
       this.getArticleListByPage()
       this.$watch('keywords',debounce(this.getArticleListByPage, 300))
