@@ -20,7 +20,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="updateTag(scope.row.tagName, scope.row.description)"
+            @click.native.prevent="updateTag(scope.row.tagName, scope.row.description, scope.row._id)"
             type="text"
             size="small">
             修改
@@ -64,137 +64,149 @@
 </template>
 
 <script>
-	import {Form, Button, FormItem, Input, Tag, Table, TableColumn, Dialog, Pagination} from "element-ui";
+import {
+  Form,
+  Button,
+  FormItem,
+  Input,
+  Tag,
+  Table,
+  TableColumn,
+  Dialog,
+  Pagination
+} from "element-ui";
 
-	export default {
-    name: "TagList",
-    data() {
-      return {
-        dialogFormVisible: false,
-        form: {
-          tagName: '',
-          description: ''
-        },
-        rules: {
-          tagName: [{required: true, message: '请输入标签名称', trigger: 'blur'}],
-          description: [{required: true, message: '请输入标签描述', trigger: 'blur'}]
-        },
-        currentPage: 1,
-        totalTags: 10,
-        tagList: []
-      }
-    },
-		components: {
-			'el-form':Form,
-			'el-form-item':FormItem,
-			'el-button':Button,
-			'el-input':Input,
-      'el-tag':Tag,
-      'el-table':Table,
-      'el-table-column':TableColumn,
-      'el-dialog':Dialog,
-      'el-pagination': Pagination
-		},
-    created() {
-      this.getTagListByPage(this.currentPage)
-    },
-    methods: {
-      addTag() {
-        this.dialogFormVisible = true
-        this.$nextTick(()=> {
-          this.$refs.tagForm.resetFields()
-          this.$refs.tagName.focus()
-        })
+export default {
+  name: "TagList",
+  data() {
+    return {
+      dialogFormVisible: false,
+      form: {
+        tagName: "",
+        description: ""
       },
-      submitForm() {
-        let self = this
-        self.$refs.tagForm.validate((valid) => {
-          if (valid) {
-            self.$axios._post('tag/tag', {
+      rules: {
+        tagName: [
+          { required: true, message: "请输入标签名称", trigger: "blur" }
+        ],
+        description: [
+          { required: true, message: "请输入标签描述", trigger: "blur" }
+        ]
+      },
+      currentPage: 1,
+      totalTags: 10,
+      tagList: []
+    };
+  },
+  components: {
+    "el-form": Form,
+    "el-form-item": FormItem,
+    "el-button": Button,
+    "el-input": Input,
+    "el-tag": Tag,
+    "el-table": Table,
+    "el-table-column": TableColumn,
+    "el-dialog": Dialog,
+    "el-pagination": Pagination
+  },
+  created() {
+    this.getTagListByPage(this.currentPage);
+  },
+  methods: {
+    addTag() {
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs.tagForm.resetFields();
+        this.$refs.tagName.focus();
+      });
+    },
+    submitForm() {
+      let self = this;
+      self.$refs.tagForm.validate(valid => {
+        if (valid) {
+          self.$axios
+            ._post("tag", {
               ...self.form
-            }).then(
-              (res) => {
-                if (res.data.code) {
-                  self.$message.success("保存标签成功！")
-                  self.$refs.tagForm.resetFields()
-                  self.dialogFormVisible = false
-                  self.getTagListByPage(self.currentPage)
-                } else {
-                  self.$message.error(res.data.message)
-                  console.log(res.data.err)
-                }
-              },
-            ).catch((e) => {
-              console.log(e)
-              // self.$message.error(e)
             })
-          } else {
-            self.$message.error("信息填写不完整哟~")
-            return false
-          }
-        })
-      },
-      getTagListByPage(page) {
-        let self = this
-        self.$axios._get('tag/tag_list', {
+            .then(res => {
+              if (!res.data.code) {
+                self.$message.success("保存标签成功！");
+                self.$refs.tagForm.resetFields();
+                self.dialogFormVisible = false;
+                self.getTagListByPage(self.currentPage);
+              } else {
+                self.$message.error(res.data.message);
+                console.log(res.data.err);
+              }
+            })
+            .catch(e => {
+              console.log(e);
+              // self.$message.error(e)
+            });
+        } else {
+          self.$message.error("信息填写不完整哟~");
+          return false;
+        }
+      });
+    },
+    getTagListByPage(page) {
+      let self = this;
+      self.$axios
+        ._get("tag", {
           page: page
-        }).then(
-          (res) => {
-            if (res.data.code) {
-
-              self.tagList = res.data.result.res_limit
-              self.totalTags = res.data.result.total
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch((e) => {
-            console.log(e)
-          }
-        )
-
-
-      },
-      deleteTag(id) {
-        let self = this
-        self.$axios._delete('tag/tag', {
-          tagId: id
-        }).then(
-          (res) => {
-            if (res.data.code) {
-              self.getTagListByPage(self.currentPage)
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch((err) => {
-          console.log(
-            err
-          )
         })
-      },
-      updateTag(tagName, description) {
-        let self = this
-        self.form = {tagName,description}
-        self.dialogFormVisible = true
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        this.getTagListByPage(val)
-      },
-      prevClick() {
-        this.currentPage = this.currentPage --
-      },
-      nextClick() {
-        this.currentPage = this.currentPage ++
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
+        .then(res => {
+          if (!res.data.code) {
+            self.tagList = res.data.data.res_limit;
+            self.totalTags = res.data.data.total;
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    deleteTag(id) {
+      let self = this;
+      self.$axios
+        ._delete("tag/tag", {
+          tagId: id
+        })
+        .then(res => {
+          if (res.data.code) {
+            self.getTagListByPage(self.currentPage);
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    updateTag(tagName, description, id) {
+      let self = this;
+      self.form = { tagName, description };
+      console.log("update");
+      self.dialogFormVisible = true;
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.getTagListByPage(val);
+    },
+    prevClick() {
+      this.currentPage = this.currentPage--;
+    },
+    nextClick() {
+      this.currentPage = this.currentPage++;
+    },
+    filterTag(value, row) {
+      return row.tag === value;
     }
   }
+};
 </script>
 
 <style scoped lang="stylus">

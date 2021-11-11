@@ -41,7 +41,6 @@
         <div class="title">标签</div>
         <ul class="tag-list">
           <li class="tag" v-for="tag in tagList" :key="tag._id"><a href="">{{tag.tagName}}</a></li>
-
         </ul>
       </div>
     </div>
@@ -49,119 +48,122 @@
 </template>
 
 <script>
-	import FooterMixin from '@/utils/mixin/footer-mixin'
-	import scrollReveal from 'scrollreveal';
-	import {mapGetters} from 'vuex';
-	import {debounce} from "../../../utils/common";
+import FooterMixin from "@/utils/mixin/footer-mixin";
+import { Pagination } from "element-ui";
+import scrollReveal from "scrollreveal";
+import { mapGetters } from "vuex";
+import { debounce } from "../../../utils/common";
 
-	export default {
-		name: "Article",
-		mixins: [FooterMixin],
-		data() {
-			return {
-				total: 1,
-				currentPage: 1,
-				articleList: [],
-				hotList: [],
-				tagList: [],
-				scrollReveal: scrollReveal()
-			}
-
-		},
-    computed: {
-			...mapGetters(['getKeywords'])
+export default {
+  name: "Article",
+  mixins: [FooterMixin],
+  components: {
+    "el-pagination": Pagination
+  },
+  data() {
+    return {
+      total: 1,
+      currentPage: 1,
+      articleList: [],
+      hotList: [],
+      tagList: [],
+      scrollReveal: scrollReveal()
+    };
+  },
+  computed: {
+    ...mapGetters(["getKeywords"])
+  },
+  // watch: {
+  // 	getKeywords(newVal) {
+  // 		debounce(this.getArticleListByPage(), 300)
+  //
+  //   }
+  // },
+  created() {
+    this.getArticleListByPage();
+    this.getTagList();
+    this.$watch("getKeywords", debounce(this.getArticleListByPage, 300));
+  },
+  mounted() {
+    this.footer(this.$refs.article.offsetHeight);
+    this.scrollReveal.reveal(".reveal-top", {
+      // 动画的时长
+      duration: 500,
+      // 延迟时间
+      delay: 200,
+      // 动画开始的位置，'bottom', 'left', 'top', 'right'
+      origin: "bottom",
+      // 回滚的时候是否再次触发动画
+      reset: false,
+      // 在移动端是否使用动画
+      mobile: false,
+      // 滚动的距离，单位可以用%，rem等
+      distance: "50px",
+      // 其他可用的动画效果
+      opacity: 0.001,
+      easing: "linear"
+    });
+    this.scrollReveal.reveal(".reveal-left", {
+      // 动画的时长
+      duration: 500,
+      // 延迟时间
+      delay: 200,
+      // 动画开始的位置，'bottom', 'left', 'top', 'right'
+      origin: "left",
+      // 回滚的时候是否再次触发动画
+      reset: false,
+      // 在移动端是否使用动画
+      mobile: false,
+      // 滚动的距离，单位可以用%，rem等
+      distance: "50px",
+      // 其他可用的动画效果
+      opacity: 0.001,
+      easing: "linear"
+    });
+  },
+  methods: {
+    getTagList() {
+      this.$axios
+        ._get("tag")
+        .then(res => {
+          if (!res.data.code) {
+            this.tagList = res.data.data.res_limit;
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
-    // watch: {
-		// 	getKeywords(newVal) {
-		// 		debounce(this.getArticleListByPage(), 300)
-    //
-    //   }
-    // },
-		created() {
-			this.getArticleListByPage()
-			this.getTagList()
-      this.$watch('getKeywords', debounce(this.getArticleListByPage, 300))
-		},
-		mounted() {
-			this.footer(this.$refs.article.offsetHeight)
-			this.scrollReveal.reveal('.reveal-top', {
-				// 动画的时长
-				duration: 500,
-				// 延迟时间
-				delay: 200,
-				// 动画开始的位置，'bottom', 'left', 'top', 'right'
-				origin: 'bottom',
-				// 回滚的时候是否再次触发动画
-				reset: false,
-				// 在移动端是否使用动画
-				mobile: false,
-				// 滚动的距离，单位可以用%，rem等
-				distance: '50px',
-				// 其他可用的动画效果
-				opacity: 0.001,
-				easing: 'linear',
-			});
-			this.scrollReveal.reveal('.reveal-left', {
-				// 动画的时长
-				duration: 500,
-				// 延迟时间
-				delay: 200,
-				// 动画开始的位置，'bottom', 'left', 'top', 'right'
-				origin: 'left',
-				// 回滚的时候是否再次触发动画
-				reset: false,
-				// 在移动端是否使用动画
-				mobile: false,
-				// 滚动的距离，单位可以用%，rem等
-				distance: '50px',
-				// 其他可用的动画效果
-				opacity: 0.001,
-				easing: 'linear',
-			});
-
-		},
-		methods: {
-			getTagList() {
-				this.$axios._get('tag/tag_list').then(
-					(res) => {
-						if (res.data.code) {
-							this.tagList = res.data.result.res_limit
-						}
-					}
-				).catch(
-					(e) => {
-						console.log(e)
-					})
-			},
-			getArticleListByPage() {
-				let self = this
-				self.$axios._get('article/article_list', {page: this.currentPage, keywords: this.getKeywords}).then(
-					(res) => {
-						if (res.data.code) {
-							self.articleList = res.data.result.res_limit
-							self.total = res.data.result.total
-							if (Object.is(self.hotList.length, 0)) {
-								self.hotList = res.data.result.res_limit
-							}
-						} else {
-							self.$message.error(res.data.message)
-						}
-					}
-				).catch(
-					(e) => {
-						console.log(e)
-					}
-				)
-
-			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
-			},
-		}
-	}
+    getArticleListByPage() {
+      let self = this;
+      self.$axios
+        ._get("article/list", {
+          page: this.currentPage,
+          keywords: this.getKeywords
+        })
+        .then(res => {
+          if (!res.data.code) {
+            self.articleList = res.data.data.res_limit;
+            self.total = res.data.data.total;
+            if (Object.is(self.hotList.length, 0)) {
+              self.hotList = res.data.data.res_limit;
+            }
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    }
+  }
+};
 </script>
 
 <style scoped lang="stylus">

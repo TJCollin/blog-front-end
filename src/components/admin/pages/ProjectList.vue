@@ -114,140 +114,155 @@
 </template>
 
 <script>
-	import {Form, Button, FormItem, Input, Tag, Table, TableColumn, Dialog, Pagination} from "element-ui";
+import {
+  Form,
+  Button,
+  FormItem,
+  Input,
+  Tag,
+  Table,
+  TableColumn,
+  Dialog,
+  Pagination
+} from "element-ui";
 
-	export default {
-    name: "ProjectList",
-    data() {
-      return {
-        dialogFormVisible: false,
-        form: {
-          projectName: '',
-          projectUrl: '',
-          projectCode: '',
-          projectIcon: '',
-          projectDesc: ''
-        },
-        rules: {
-          projectName: { required: true, message: '项目名称不能为空哟！', trigger: 'blur' },
-          projectCode: { required: true, message: '源码地址不能为空哟！', trigger: 'blur' }
-        },
-        currentPage: 1,
-        totalProjects: 1,
-        projectList: []
-      }
-    },
-		components: {
-			'el-form':Form,
-			'el-form-item':FormItem,
-			'el-button':Button,
-			'el-input':Input,
-			'el-tag':Tag,
-			'el-table':Table,
-			'el-table-column':TableColumn,
-			'el-dialog':Dialog,
-      'el-pagination': Pagination
-		},
-    created() {
-      this.getProjectListByPage(1)
-    },
-    methods: {
-      addProject() {
-        this.dialogFormVisible = true
-        this.$nextTick(()=> {
-          this.$refs.projectForm.resetFields()
-          this.$refs.projectName.focus()
-        })
+export default {
+  name: "ProjectList",
+  data() {
+    return {
+      dialogFormVisible: false,
+      form: {
+        projectName: "",
+        projectUrl: "",
+        projectCode: "",
+        projectIcon: "",
+        projectDesc: ""
       },
-      submitForm() {
-        let self = this
-        self.$refs.projectForm.validate((valid) => {
-          if (valid) {
-            self.$refs.projectForm.validate((valid) => {
-              if(valid){
-                self.$axios._post('project/project',self.form).then(
-                  (res) => {
-                    if (res.data.code) {
-                      self.$message.success(res.data.message)
-                      self.$refs.projectForm.resetFields()
-                      self.dialogFormVisible = false
-                      self.getProjectListByPage(self.currentPage)
-                    } else {
-                      self.$message.error(res.data.message)
-                      console.log(res.data.err)
-                    }
+      rules: {
+        projectName: {
+          required: true,
+          message: "项目名称不能为空哟！",
+          trigger: "blur"
+        },
+        projectCode: {
+          required: true,
+          message: "源码地址不能为空哟！",
+          trigger: "blur"
+        }
+      },
+      currentPage: 1,
+      totalProjects: 1,
+      projectList: []
+    };
+  },
+  components: {
+    "el-form": Form,
+    "el-form-item": FormItem,
+    "el-button": Button,
+    "el-input": Input,
+    "el-tag": Tag,
+    "el-table": Table,
+    "el-table-column": TableColumn,
+    "el-dialog": Dialog,
+    "el-pagination": Pagination
+  },
+  created() {
+    this.getProjectListByPage(1);
+  },
+  methods: {
+    addProject() {
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs.projectForm.resetFields();
+        this.$refs.projectName.focus();
+      });
+    },
+    submitForm() {
+      let self = this;
+      self.$refs.projectForm.validate(valid => {
+        if (valid) {
+          self.$refs.projectForm.validate(valid => {
+            if (valid) {
+              self.$axios
+                ._post("project", self.form)
+                .then(res => {
+                  if (!res.data.code) {
+                    self.$message.success(res.data.message);
+                    self.$refs.projectForm.resetFields();
+                    self.dialogFormVisible = false;
+                    self.getProjectListByPage(self.currentPage);
+                  } else {
+                    self.$message.error(res.data.message);
+                    console.log(res.data.err);
                   }
-                ).catch(e => {
-                  console.log(e)
                 })
-              }else {
-                self.$message.error("必要信息未填写完整！")
-                return false
-              }
-            })
-          } else {
-            self.message.error("必要信息未填写完整哟~")
-            return false
-          }
-        })
-      },
-      getProjectListByPage(page) {
-        let self = this
-        self.$axios._get('project/project_list', {
+                .catch(e => {
+                  console.log(e);
+                });
+            } else {
+              self.$message.error("必要信息未填写完整！");
+              return false;
+            }
+          });
+        } else {
+          self.message.error("必要信息未填写完整哟~");
+          return false;
+        }
+      });
+    },
+    getProjectListByPage(page) {
+      let self = this;
+      self.$axios
+        ._get("project", {
           page: page
-        }).then(
-          (res) => {
-            if (res.data.code) {
-
-              self.projectList = res.data.result.res_limit
-              self.totalProjects = res.data.result.total
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch((e) => {
-            console.log(e)
-          }
-        )
-
-
-      },
-      changeIcon(icon) {
-        this.form.projectIcon = icon
-      },
-      deleteRow(id) {
-        let self = this
-        self.$axios._delete('project/project', {
-          projectId: id
-        }).then(
-          (res) => {
-            if (res.data.code) {
-              self.getProjectListByPage(self.currentPage)
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch((err) => {
-          console.log(
-            err
-          )
         })
-      },
-      updateProject(row){
-        this.form = row
-        this.dialogFormVisible = true
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        this.getProjectListByPage(val)
-      },
-      filterProject(value, row) {
-        return row.project === value;
-      },
+        .then(res => {
+          if (!res.data.code) {
+            self.projectList = res.data.result.res_limit;
+            self.totalProjects = res.data.result.total;
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    changeIcon(icon) {
+      this.form.projectIcon = icon;
+    },
+    deleteRow(id) {
+      let self = this;
+      self.$axios
+        ._delete("project/project", {
+          projectId: id
+        })
+        .then(res => {
+          if (res.data.code) {
+            self.getProjectListByPage(self.currentPage);
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    updateProject(row) {
+      this.form = row;
+      this.dialogFormVisible = true;
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.getProjectListByPage(val);
+    },
+    filterProject(value, row) {
+      return row.project === value;
     }
   }
+};
 </script>
 
 <style scoped lang="stylus">

@@ -74,88 +74,86 @@
 </template>
 
 <script>
-  import {debounce} from "../../../utils/common";
-  import {Button, Input, Tag, Table, TableColumn, Pagination} from "element-ui";
+import { debounce } from "../../../utils/common";
+import { Button, Input, Tag, Table, TableColumn, Pagination } from "element-ui";
 
-
-  export default {
-    name: "ArticleList",
-    data() {
-      return {
-        total: 1,
-        currentPage: 1,
-        articleList: [],
-        keywords: ''
-      }
-    },
-	  components: {
-		  'el-button':Button,
-		  'el-input':Input,
-		  'el-tag':Tag,
-		  'el-table':Table,
-		  'el-table-column':TableColumn,
-      'el-pagination': Pagination
-	  },
-    created() {
-      this.getArticleListByPage()
-      this.$watch('keywords',debounce(this.getArticleListByPage, 300))
-
-    },
-    methods: {
-	    searchArticleList() {
-
-      },
-      getArticleListByPage() {
-        let self = this
-        console.log('get')
-        self.$axios._get('article/article_list',{page: this.currentPage, keywords: this.keywords}).then(
-          (res) => {
-            if (res.data.code) {
-              self.articleList = res.data.result.res_limit
-              self.total = res.data.result.total
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch(
-          (e) => {
-            console.log(e)
-          }
-        )
-
-      },
-      updateArticle(articleId){
-        this.$router.push({name: 'ArticleInfo',params:{articleId: articleId}})
-      },
-      deleteRow(id) {
-        let self = this
-        self.$axios._delete('article/article', {
-          articleId: id
-        }).then(
-          (res) => {
-            if (res.data.code) {
-              self.getArticleListByPage(self.currentPage)
-            } else {
-              self.$message.error(res.data.message)
-            }
-          }
-        ).catch((err) => {
-          console.log(
-            err
-          )
+export default {
+  name: "ArticleList",
+  data() {
+    return {
+      total: 1,
+      currentPage: 1,
+      articleList: [],
+      keywords: ""
+    };
+  },
+  components: {
+    "el-button": Button,
+    "el-input": Input,
+    "el-tag": Tag,
+    "el-table": Table,
+    "el-table-column": TableColumn,
+    "el-pagination": Pagination
+  },
+  created() {
+    this.getArticleListByPage();
+    this.$watch("keywords", debounce(this.getArticleListByPage, 300));
+  },
+  methods: {
+    searchArticleList() {},
+    getArticleListByPage() {
+      let self = this;
+      self.$axios
+        ._get("article/list", {
+          page: this.currentPage,
+          keywords: this.keywords
         })
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
+        .then(res => {
+          if (!res.data.code) {
+            self.articleList = res.data.data.res_limit;
+            self.total = res.data.data.total;
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    updateArticle(articleId) {
+      this.$router.push({
+        name: "ArticleInfo",
+        params: { articleId: articleId }
+      });
+    },
+    deleteRow(id) {
+      let self = this;
+      self.$axios
+        ._delete("article/article", {
+          articleId: id
+        })
+        .then(res => {
+          if (res.data.code) {
+            self.getArticleListByPage(self.currentPage);
+          } else {
+            self.$message.error(res.data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    filterTag(value, row) {
+      return row.tag === value;
     }
   }
+};
 </script>
 
 <style scoped lang="stylus">

@@ -21,65 +21,73 @@
 </template>
 
 <script>
-  import {Form, Button, FormItem, Input} from "element-ui";
-  export default {
-    name: "AdminLogin",
-    data() {
-      return {
-        labelPosition: 'right',
-        loginForm: {
-          name: '',
-          password: ''
-        },
-        rules: {
-          name: [{required: true, message: '账号不能为空哟！', trigger: 'blur'}],
-          password: [{required: true, message: '密码不能为空哟', trigger: 'blur'}]
-        }
+import { Form, Button, FormItem, Input } from "element-ui";
+export default {
+  name: "AdminLogin",
+  data() {
+    return {
+      labelPosition: "right",
+      loginForm: {
+        name: "",
+        password: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: "账号不能为空哟！", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "密码不能为空哟", trigger: "blur" }
+        ]
       }
-    },
-    components: {
-    	'el-form':Form,
-      'el-form-item':FormItem,
-      'el-button': Button,
-      'el-input': Input,
+    };
+  },
 
-    },
-    methods: {
-      login() {
-        let self = this
-        self.$refs.loginForm.validate((valid) => {
-          if (valid) {
-            self.$axios._post('user/login', {
-              "username": self.loginForm.name,
-              "password": self.loginForm.password
-            }).then(
-              (res) => {
-                if (res.data.code) {
-                  console.log(res.data)
-                  // self.$axios.defaults.headers.common['Authorization'] = res.data.result.token
-                  window.localStorage.setItem('BLOG_TOKEN', JSON.stringify(res.data.result))
-                  self.$router.push({name: 'ArticleList'})
+  components: {
+    "el-form": Form,
+    "el-form-item": FormItem,
+    "el-button": Button,
+    "el-input": Input
+  },
+
+  methods: {
+    login() {
+      let self = this;
+      self.$refs.loginForm.validate(valid => {
+        if (valid) {
+          self.$axios
+            ._post("user/login", {
+              username: self.loginForm.name,
+              password: self.loginForm.password
+            })
+            .then(
+              res => {
+                if (!res.data.code) {
+                  console.log(res.data);
+                  // self.$axios.defaults.headers.common['Authorization'] = res.data.data.token
+                  window.localStorage.setItem(
+                    "BLOG_TOKEN",
+                    JSON.stringify(res.data.data)
+                  );
+                  self.$router.push({ name: "ArticleList" });
                 } else {
-                  this.$message.error(res.data.message)
+                  this.$message.error(res.data.message);
                 }
               },
-              (err) => {
-                console.log(err)
+              err => {
+                console.log(err);
               }
-            )
-          } else {
-            self.$message.error("必要信息未填写完整！")
-            return false
-          }
-        })
-
-
-      },
-      resetForm() {
-        this.$refs.loginForm.resetFields();
-      }
+            );
+        } else {
+          self.$message.error("必要信息未填写完整！");
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.loginForm.resetFields();
     }
   }
+};
 </script>
 
 <style scoped lang="stylus">

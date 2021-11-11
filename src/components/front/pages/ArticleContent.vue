@@ -28,47 +28,44 @@
 </template>
 
 <script>
-  import {mavonEditor} from 'mavon-editor'
-  import FooterMixin from '@/utils/mixin/footer-mixin'
-  import 'mavon-editor/dist/css/index.css'
-  // import BaseConfig from '@/config'
-	export default {
-		name: "ArticleInfo",
-    mixins: [FooterMixin],
-    components: {
-		  'mavon-editor': mavonEditor
-    },
-    data() {
-		  return {
+import { mavonEditor } from "mavon-editor";
+import FooterMixin from "@/utils/mixin/footer-mixin";
+import "mavon-editor/dist/css/index.css";
+// import BaseConfig from '@/config'
+export default {
+  name: "ArticleInfo",
+  mixins: [FooterMixin],
+  components: {
+    "mavon-editor": mavonEditor
+  },
+  data() {
+    return {
+      boxShadow: false,
 
-        boxShadow: false,
-
-        articleInfo: {
-          _id: '',
-          title: '标题',
-          content: '',
-          updatedAt: '',
-          tagArr: []
-        }
+      articleInfo: {
+        _id: "",
+        title: "标题",
+        content: "",
+        updatedAt: "",
+        tagArr: []
       }
-    },
-    created() {
-		  this.$axios._get('article/article',{
-		    articleId: this.$route.params.articleId
-      }).then(
-        (res) => {
-          if (res.data.code) {
-            this.articleInfo = res.data.result[0]
-            this.$nextTick(()=>{
-              this.footer(this.$refs.articleContent.offsetHeight)
-            })
-            // this.content = res.data.result.content
-            // this.title = res.data.result.title
-          }
+    };
+  },
+  created() {
+    this.$axios
+      ._get("article", {
+        articleId: this.$route.params.articleId
+      })
+      .then(res => {
+        if (!res.data.code) {
+          this.articleInfo = res.data.data[0];
+          this.$nextTick(() => {
+            this.footer(this.$refs.articleContent.offsetHeight);
+          });
         }
-      )
-    }
-	}
+      });
+  }
+};
 </script>
 
 <style lang="stylus">

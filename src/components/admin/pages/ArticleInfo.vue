@@ -25,145 +25,146 @@
 </template>
 
 <script>
-  import {mavonEditor} from 'mavon-editor'
-  import 'mavon-editor/dist/css/index.css'
-  import BaseConfig from '@/config'
-  import {Form, Button, FormItem, Input, Select} from "element-ui";
+import { mavonEditor } from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+import BaseConfig from "@/config";
+import { Form, Button, FormItem, Input, Select, Option } from "element-ui";
 
+export default {
+  name: "ArticleInfo",
+  data() {
+    return {
+      updateTag: false,
+      tagList: [],
+      form: {
+        title: "",
+        content: "",
+        tags: [],
+        abstract: ""
+      },
+      rules: {
+        title: [{ required: true, message: "请输入文章标题", trigger: "blur" }],
+        tags: [{ required: true, message: "请选择文章标题", trigger: "blur" }],
+        abstract: [
+          { required: true, message: "请填写活动形式", trigger: "blur" }
+        ]
+      }
+    };
+  },
 
-  export default {
-    name: "ArticleInfo",
-    data() {
-      return {
-        updateTag: false,
-        tagList: [],
-        form: {
-          title: '',
-          content: '',
-          tags: [],
-          abstract: ''
-        },
-        rules: {
-          title: [
-            {required: true, message: '请输入文章标题', trigger: 'blur'},
-          ],
-          tags: [
-            {required: true, message: '请选择文章标题', trigger: 'blur'}
-          ],
-          abstract: [
-            {required: true, message: '请填写活动形式', trigger: 'blur'}
-          ]
-        }
-      };
-    },
-    // mounted() {
-    //
-    // },
-    created() {
-      let articleId = this.$route.params.articleId
-      this.updateTag = false
-      if(articleId) {
-        this.updateTag = true
-        this.$axios._get('article/article',{
+  created() {
+    let articleId = this.$route.params.articleId;
+    this.updateTag = false;
+    if (articleId) {
+      this.updateTag = true;
+      this.$axios
+        ._get("article/article", {
           articleId: articleId
-        }).then(
-          (res) => {
-            if (res.data.code) {
-              this.form = res.data.result[0]
-            } else {
-              this.$message.error(res.data.message)
-            }
-          }
-        ).catch((e) => {
-          console.log(e)
         })
-      }
-
-      this.$axios._get('tag/tag_list').then(
-        (res) => {
+        .then(res => {
           if (res.data.code) {
-            this.tagList = res.data.result.res_limit
-          }
-        }
-      ).catch(
-        (e) => {
-          console.log(e)
-        })
-    },
-    components: {
-      'm-editor': mavonEditor,
-	    'el-form': Form,
-	    'el-form-item':FormItem,
-	    'el-button':Button,
-	    'el-input':Input,
-      'el-select': Select
-    },
-    methods: {
-      imgAdd(pos, $file) {
-        let formData = new FormData()
-        formData.append('file', $file)
-        let config = {headers: {"Content-Type": "multipart/form-data"}}
-        this.$axios._post('img', formData).then(
-          (res) => {
-            let url = `${BaseConfig.SERVER_NAME}images/${res.data.result.filename}`
-            this.$refs.editor.$img2Url(pos, url)
-            console.log(res)
-          }
-        ).catch(
-          (e) => {
-            console.log(e)
-          }
-        )
-
-      },
-      getLocalDate(){
-        let d = new Date();
-        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-        return d
-      },
-      submitForm() {
-        let self = this
-        self.$refs.articleForm.validate((valid) => {
-          if (valid) {
-            if (self.updateTag) {
-              self.$axios._put('article/article',{...self.form, updatedAt:self.getLocalDate()}).then(
-                (res) => {
-                  if (res.data.code) {
-                    self.$message.success("文章保存成功")
-                  } else {
-                    self.$message.error("文章保存失败")
-                  }
-                }
-              ).catch(e => {
-                console.log(e)
-              })
-            } else {
-              self.$axios._post('article/article',{...self.form, updatedAt:self.getLocalDate()}).then(
-                (res) => {
-                  if (res.data.code) {
-                    self.$message.success("文章保存成功")
-                  } else {
-                    self.$message.error("文章保存失败")
-                  }
-                }
-              ).catch(e => {
-                console.log(e)
-              })
-            }
+            this.form = res.data.data[0];
           } else {
-            self.$message.error("必要信息未填写完整！")
-            return false;
+            this.$message.error(res.data.message);
           }
+        })
+        .catch(e => {
+          console.log(e);
         });
-      },
-      resetForm() {
-        this.$refs.editor.resetFields();
-      },
-      saveArticle(value, render) {
-        console.log('save', value, render)
-      }
+    }
+
+    this.$axios
+      ._get("tag")
+      .then(res => {
+        if (!res.data.code) {
+          this.tagList = res.data.data.res_limit;
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  },
+  components: {
+    "m-editor": mavonEditor,
+    "el-form": Form,
+    "el-form-item": FormItem,
+    "el-button": Button,
+    "el-input": Input,
+    "el-select": Select,
+    "el-option": Option
+  },
+  methods: {
+    imgAdd(pos, $file) {
+      let formData = new FormData();
+      formData.append("file", $file);
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      this.$axios
+        ._post("img", formData)
+        .then(res => {
+          let url = `${BaseConfig.SERVER_NAME}images/${res.data.data.filename}`;
+          this.$refs.editor.$img2Url(pos, url);
+          console.log(res);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    getLocalDate() {
+      let d = new Date();
+      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+      return d;
+    },
+    submitForm() {
+      let self = this;
+      self.$refs.articleForm.validate(valid => {
+        if (valid) {
+          if (self.updateTag) {
+            self.$axios
+              ._put("article/article", {
+                ...self.form,
+                updatedAt: self.getLocalDate()
+              })
+              .then(res => {
+                if (res.data.code) {
+                  self.$message.success("文章保存成功");
+                } else {
+                  self.$message.error("文章保存失败");
+                }
+              })
+              .catch(e => {
+                console.log(e);
+              });
+          } else {
+            self.$axios
+              ._post("article/article", {
+                ...self.form,
+                updatedAt: self.getLocalDate()
+              })
+              .then(res => {
+                if (res.data.code) {
+                  self.$message.success("文章保存成功");
+                } else {
+                  self.$message.error("文章保存失败");
+                }
+              })
+              .catch(e => {
+                console.log(e);
+              });
+          }
+        } else {
+          self.$message.error("必要信息未填写完整！");
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.editor.resetFields();
+    },
+    saveArticle(value, render) {
+      console.log("save", value, render);
     }
   }
+};
 </script>
 
 <style lang="stylus">
