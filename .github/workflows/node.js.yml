@@ -6,7 +6,7 @@ name: Node.js CI
 on:
   push:
     branches: [ master ]
-    
+
   workflow_dispatch:
 
 jobs:
@@ -34,11 +34,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       # Runs a set of commands using the runners shell
       - name: Build project
-        run: yarn build
+        run: npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
