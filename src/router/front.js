@@ -5,51 +5,48 @@
 // import Main from '@/components/front/Main'
 // import Project from '@/components/front/pages/Project'
 
-const Layout = () => import('@/components/front/Layout')
-const Article = () => import('@/components/front/pages/Article')
-const ArticleContent = () => import('@/components/front/pages/ArticleContent')
-const About = () => import('@/components/front/pages/About')
-const Main = () => import('@/components/front/Main')
-const Project = () => import('@/components/front/pages/Project')
+const Layout = () => import("@/components/front/Layout");
+const Article = () => import("@/components/front/pages/Article");
+const ArticleContent = () => import("@/components/front/pages/ArticleContent");
+const About = () => import("@/components/front/pages/About");
+const Main = () => import("@/components/front/Main");
+const Project = () => import("@/components/front/pages/Project");
 
 export default [
   {
-    path: '/',
+    path: "/",
     component: Main,
-    name: 'Main'
+    name: "Main"
   },
   {
-    path: '/front',
+    path: "/front",
     component: Layout,
     children: [
       {
-        path: 'article',
-        name: 'Article',
+        path: "article",
+        name: "Article",
         component: Article,
-        children: [
-        ]
+        children: []
       },
       {
-        path: 'article/:articleId',
-        name: 'ArticleContent',
+        path: "article/:articleId",
+        name: "ArticleContent",
         component: ArticleContent
       },
       {
-        path: 'project',
-        name: 'Project',
+        path: "project",
+        name: "Project",
         component: Project
       },
       {
-        path: 'about',
-        name: 'About',
+        path: "about",
+        name: "About",
         component: About
       }
     ]
-
-  },
-  {
-    path: '*',
-    redirect: {name : 'Main'}
   }
-  ]
-
+  // {
+  //   path: '*',
+  //   redirect: {name : 'Main'}
+  // }
+];
