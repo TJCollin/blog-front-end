@@ -1,0 +1,398 @@
+html {
+  font-size: 14px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  margin: 0;
+  color: #555;
+  letter-spacing: .5px;
+  font-family: Futura, -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/** 清除内外边距 **/
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+
+  /* structural elements 结构元素 */
+
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+
+  /* list elements 列表元素 */
+
+pre,
+
+  /* text formatting elements 文本格式元素 */
+
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+
+  /* form elements 表单元素 */
+
+th,
+td
+  /* table elements 表格元素 */
+
+{
+  margin: 0;
+  padding: 0;
+}
+
+/** 设置默认字体 **/
+
+button,
+input,
+select,
+textarea
+  /* for ie */
+
+{
+  font: 14px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+/* 将斜体扶正 */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: courier new, courier, monospace;
+}
+
+/* 统一等宽字体 */
+
+small {
+  font-size: 12px;
+}
+
+/* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+
+ul,
+ol {
+  list-style: none;
+}
+
+/** 重置文本格式元素 **/
+
+a {
+  text-decoration: none;
+}
+
+a {
+  color: #555;
+  text-decoration: none;
+}
+
+strong {
+  font-weight: normal;
+}
+
+/** 重置表单元素 **/
+
+legend {
+  color: #000;
+}
+
+/* for ie6 */
+
+fieldset,
+img {
+  border: 0;
+}
+
+/* img 搭车：让链接里的 img 无边框 */
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+
+/* 使得表单元素在 ie 下能继承字体大小 */
+
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+i {
+  font-style: normal
+}
+
+@font-face {
+  font-family: 'iconfont';  /* project id 849490 */
+  src: url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot');
+  src: url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff') format('woff'),
+  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #409EFF;
+  color: #fff;
+}
+
+::-moz-selection {
+  background: #409EFF;
+  color: #fff;
+}
+
+::-webkit-selection {
+  background: #409EFF;
+  color: #fff;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+.icon-menu-layout::before {
+  content: "\e628"
+}
+
+.icon-csdn::before {
+  content: "\e600"
+}
+
+.icon-eye::before {
+  content: "\e60b"
+}
+
+.icon-people::before {
+  content: "\e61c"
+}
+
+.icon-code::before {
+  content: "\e6c7"
+}
+
+.icon-qq::before {
+  content: "\e611"
+}
+
+.icon-weibo-share::before {
+  content: "\e62e"
+}
+
+
+.icon-wechat::before {
+  content: "\e60a"
+}
+
+.icon-qqzone::before {
+  content: "\e62f"
+}
+
+.icon-douban::before {
+  content: "\e603"
+}
+
+.icon-typescript::before {
+  content: "\e747"
+}
+
+.icon-react::before {
+  content: "\e972"
+}
+
+.icon-vue::before {
+  content: "\e640"
+}
+
+.icon-angular::before {
+  content: "\e605"
+}
+
+.icon-node::before {
+  content: "\e602"
+}
+
+.icon-dot::before {
+  content: '\e63f';
+}
+
+.icon-email:before {
+  content: "\e643";
+}
+
+.icon-position:before {
+  content: "\e608";
+}
+
+.icon-love:before {
+  content: "\e745";
+}
+
+.icon-email-full:before {
+  content: "\e684";
+}
+
+.icon-menu:before {
+  content: "\e629";
+}
+
+.icon-weibo:before {
+  content: "\e619";
+}
+
+
+
+
+.icon-search:before {
+  content: "\e610";
+}
+
+
+.icon-github::before {
+  content: "\e601";
+}
+
+/* preLoader start*/
+#preLoader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0d0d0d;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+#preLoader #circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 2400ms linear infinite;
+  animation: original 2400ms linear infinite;
+}
+
+#preLoader #circle::before {
+  content: "";
+  position: absolute;
+  top: 7.5px;
+  left: 7.5px;
+  right: 7.5px;
+  bottom: 7.5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 2700ms linear infinite;
+  animation: original 2700ms linear infinite;
+}
+
+#preLoader #circle::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #f1f1f1;
+  -webkit-animation: original 1800ms linear infinite;
+  animation: original 1800ms linear infinite;
+}
+
+@-webkit-keyframes original {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes original {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* preLoader end*/
+
+/*loaderWrapper end*/
