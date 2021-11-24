@@ -8,8 +8,7 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: "static",
-    assetsPublicPath:
-      process.env.NODE_ENV === "production" ? "/blog-front-end/" : "/",
+    assetsPublicPath: "/",
     proxyTable: {},
 
     // Various Dev Server settings
@@ -42,7 +41,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, "../dist"),
     assetsSubDirectory: "static",
-    assetsPublicPath: "/",
+    assetsPublicPath:
+      process.env.NODE_ENV === "production" ? "/blog-front-end/" : "/",
 
     /**
      * Source Maps
