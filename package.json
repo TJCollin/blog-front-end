@@ -17,7 +17,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.7",
     "es6-promise": "^4.2.5",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "qs": "^6.5.2",
     "scrollreveal": "^4.0.5",
     "vue": "^2.5.2",
