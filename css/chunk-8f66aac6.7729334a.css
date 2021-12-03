@@ -1,0 +1,1 @@
+.main{display:flex;flex-direction:column}.main .editor{height:700px;display:flex}.main .editor ol{list-style:decimal}.main .editor ul{list-style:disc}.main .editor-footer{align-self:flex-end;padding:20px 0 0 20px;float:right}.main .editor-footer,.main .editor-footer .el-button{width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}
