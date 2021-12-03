@@ -5,46 +5,43 @@
 // import ProjectList from '@/components/admin/pages/ProjectList'
 // import TagList from '@/components/admin/pages/TagList'
 
-const AdminLogin = () => import('@/components/admin/AdminLogin')
-const AdminLayout = () => import('@/components/admin/AdminLayout')
-const ArticleList = () => import('@/components/admin/pages/ArticleList')
-const ArticleInfo = () => import('@/components/admin/pages/ArticleInfo')
-const ProjectList = () => import('@/components/admin/pages/ProjectList')
-const TagList = () => import('@/components/admin/pages/TagList')
-
-
+const AdminLogin = () => import("@/views/Login");
+const AdminLayout = () => import("@/views/AdminLayout");
+const ArticleList = () => import("@/components/admin/ArticleList");
+const ArticleInfo = () => import("@/components/admin/ArticleInfo");
+const ProjectList = () => import("@/components/admin/ProjectList");
+const TagList = () => import("@/components/admin/TagList");
 
 export default [
   {
-    path: '/login',
-    name: 'AdminLogin',
-    component: AdminLogin
+    path: "/login",
+    name: "AdminLogin",
+    component: AdminLogin,
   },
   {
-    path: '/admin',
+    path: "/admin",
     component: AdminLayout,
     children: [
       {
-        path: '',
-        name: 'ArticleList',
-        component: ArticleList
+        path: "",
+        name: "ArticleList",
+        component: ArticleList,
       },
       {
-        path: 'editArticle',
-        name: 'ArticleInfo',
-        component: ArticleInfo
+        path: "editArticle",
+        name: "ArticleInfo",
+        component: ArticleInfo,
       },
       {
-        path: 'projectList',
-        name: 'ProjectList',
-        component: ProjectList
+        path: "projectList",
+        name: "ProjectList",
+        component: ProjectList,
       },
       {
-        path: 'tagList',
-        name: 'TagList',
-        component: TagList
-      }
-
-    ]
-  }
-]
+        path: "tagList",
+        name: "TagList",
+        component: TagList,
+      },
+    ],
+  },
+];

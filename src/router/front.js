@@ -1,22 +1,14 @@
-// import Layout from '@/components/front/Layout'
-// import Article from '@/components/front/pages/Article'
-// import ArticleContent from '@/components/front/pages/ArticleContent'
-// import About from '@/components/front/pages/About'
-// import Main from '@/components/front/Main'
-// import Project from '@/components/front/pages/Project'
-
-const Layout = () => import("@/components/front/Layout");
-const Article = () => import("@/components/front/pages/Article");
-const ArticleContent = () => import("@/components/front/pages/ArticleContent");
-const About = () => import("@/components/front/pages/About");
-const Main = () => import("@/components/front/Main");
-const Project = () => import("@/components/front/pages/Project");
-
+const Home = () => import("../views/Home");
+const Layout = () => import("../views/Layout");
+const Article = () => import("../components/front/Article");
+const ArticleContent = () => import("../components/front/ArticleContent");
+const Project = () => import("../components/front/Project");
+const About = () => import("../components/front/About");
 export default [
   {
     path: "/",
-    component: Main,
-    name: "Main"
+    name: "Home",
+    component: Home,
   },
   {
     path: "/front",
@@ -26,27 +18,23 @@ export default [
         path: "article",
         name: "Article",
         component: Article,
-        children: []
+        children: [],
       },
       {
         path: "article/:articleId",
         name: "ArticleContent",
-        component: ArticleContent
+        component: ArticleContent,
       },
       {
         path: "project",
         name: "Project",
-        component: Project
+        component: Project,
       },
       {
         path: "about",
         name: "About",
-        component: About
-      }
-    ]
-  }
-  // {
-  //   path: '*',
-  //   redirect: {name : 'Main'}
-  // }
+        component: About,
+      },
+    ],
+  },
 ];
