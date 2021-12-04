@@ -42,6 +42,7 @@ export default {
     };
   },
   created() {
+    this.$startLoading()
     this.getProjectList();
   },
   mounted() {
@@ -67,11 +68,15 @@ export default {
   methods: {
     getProjectList() {
       this.$axios._get("project").then((res) => {
+        this.$endLoading()
         if (!res.data.code) {
           this.projectList = res.data.data.res_limit;
         } else {
           this.$message.error(res.data.message);
         }
+      }).catch((err) => {
+        this.$message.error("请求错误");
+        this.$endLoading()
       });
     },
   },

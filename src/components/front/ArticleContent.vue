@@ -84,17 +84,23 @@ export default {
     };
   },
   created() {
+    this.$startLoading()
     this.$axios
       ._get("article", {
         articleId: this.$route.params.articleId,
       })
       .then((res) => {
+        this.$endLoading()
         if (!res.data.code) {
           this.articleInfo = res.data.data[0];
           this.$nextTick(() => {
             this.footer(this.$refs.articleContent.offsetHeight);
           });
         }
+      }).catch((err) => {
+        this.$endLoading()
+        this.$message.error("请求错误")
+        console.log(err)
       });
   },
 };
