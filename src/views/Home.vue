@@ -270,33 +270,9 @@ export default {
       }
     }
 
-    .left-img {
-      background: url("../assets/images/bg8.jpg") no-repeat;
-      background-size: contain;
-      background-position: right;
-      position: absolute;
-      width: 200px;
-      height: 100%;
-      left: -150px;
-      z-index: -1;
-    }
 
-    .right-img {
-      background: url("../assets/images/bg7.jpg") no-repeat;
-      background-size: contain;
-      background-position: right;
-      position: absolute;
-      width: 350px;
-      height: 100%;
-      right: -160px;
-      z-index: -1;
 
-      .layer {
-        width: 100%;
-        height: 42%;
-        background-color: #fff;
-      }
-    }
+
   }
 }
 
