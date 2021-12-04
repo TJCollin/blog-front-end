@@ -8,10 +8,9 @@
 
 <script>
 export default {
-     mouted(){
-       const loaderwrapper = document.getelementbyid('loaderwrapper');
-       const preloader = document.getelementbyid('preloader');
-        const circle = document.getelementbyid('circle');
+     mounted(){
+       const loaderwrapper = document.getElementById('loaderWrapper');
+
         loaderwrapper.style.display = 'none';
       }
 

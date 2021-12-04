@@ -7,8 +7,9 @@ html {
   box-sizing: border-box;
   margin: 0;
   color: #555;
-  letter-spacing: .5px;
-  font-family: Futura, -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+  letter-spacing: 0.5px;
+  font-family: Futura, -apple-system, SF UI Text, Arial, PingFang SC,
+    Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -59,9 +60,7 @@ textarea,
 
 th,
 td
-  /* table elements 表格元素 */
-
-{
+  /* table elements 表格元素 */ {
   margin: 0;
   padding: 0;
 }
@@ -72,9 +71,7 @@ button,
 input,
 select,
 textarea
-  /* for ie */
-
-{
+  /* for ie */ {
   font: 14px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
 }
 
@@ -168,17 +165,18 @@ table {
 }
 
 i {
-  font-style: normal
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'iconfont';  /* project id 849490 */
-  src: url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot');
-  src: url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff') format('woff'),
-  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_849490_dv8o0ckdtqw.svg#iconfont') format('svg');
+  font-family: "iconfont"; /* project id 849490 */
+  src: url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot");
+  src: url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.eot?#iefix")
+      format("embedded-opentype"),
+    url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff2") format("woff2"),
+    url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.woff") format("woff"),
+    url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.ttf") format("truetype"),
+    url("//at.alicdn.com/t/font_849490_dv8o0ckdtqw.svg#iconfont") format("svg");
 }
 
 .iconfont {
@@ -190,23 +188,23 @@ i {
 }
 
 ::selection {
-  background: #409EFF;
+  background: #409eff;
   color: #fff;
 }
 
 ::-moz-selection {
-  background: #409EFF;
+  background: #409eff;
   color: #fff;
 }
 
 ::-webkit-selection {
-  background: #409EFF;
+  background: #409eff;
   color: #fff;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 0.5s;
 }
 
 .fade-enter,
@@ -214,70 +212,68 @@ i {
   opacity: 0;
 }
 
-
 .icon-menu-layout::before {
-  content: "\e628"
+  content: "\e628";
 }
 
 .icon-csdn::before {
-  content: "\e600"
+  content: "\e600";
 }
 
 .icon-eye::before {
-  content: "\e60b"
+  content: "\e60b";
 }
 
 .icon-people::before {
-  content: "\e61c"
+  content: "\e61c";
 }
 
 .icon-code::before {
-  content: "\e6c7"
+  content: "\e6c7";
 }
 
 .icon-qq::before {
-  content: "\e611"
+  content: "\e611";
 }
 
 .icon-weibo-share::before {
-  content: "\e62e"
+  content: "\e62e";
 }
 
-
 .icon-wechat::before {
-  content: "\e60a"
+  content: "\e60a";
 }
 
 .icon-qqzone::before {
-  content: "\e62f"
+  content: "\e62f";
 }
 
 .icon-douban::before {
-  content: "\e603"
+  content: "\e603";
 }
 
 .icon-typescript::before {
-  content: "\e747"
+  content: "\e747";
 }
 
 .icon-react::before {
-  content: "\e972"
+  content: "\e972";
 }
 
 .icon-vue::before {
-  content: "\e640"
+  content: "\e640";
 }
 
 .icon-angular::before {
-  content: "\e605"
+  content: "\e605";
 }
 
 .icon-node::before {
-  content: "\e602"
+  content: "\e602";
 }
 
 .icon-dot::before {
-  content: '\e63f';
+  content: "\e63f";
 }
 
 .icon-email:before {
@@ -304,13 +300,9 @@ i {
   content: "\e619";
 }
 
-
-
-
 .icon-search:before {
   content: "\e610";
 }
-
 
 .icon-github::before {
   content: "\e601";
@@ -396,3 +388,7 @@ i {
 /* preLoader end*/
 
 /*loaderWrapper end*/
+
+.custom-loading {
+  color: #3fb76c;
+}

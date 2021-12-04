@@ -90,6 +90,7 @@ export default {
   // },
   created() {
 
+
     this.getArticleListByPage();
     this.getTagList();
     this.$watch("getKeywords", debounce(this.getArticleListByPage, 300));
@@ -146,12 +147,9 @@ export default {
         });
     },
     getArticleListByPage() {
-      const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+      console.log(this.$startLoading)
+      this.$startLoading()
+
       let self = this;
       self.$axios
         ._get("article/list", {
@@ -159,7 +157,7 @@ export default {
           keywords: this.getKeywords,
         })
         .then((res) => {
-           loading.close();
+          this.$endLoading();
           if (!res.data.code) {
             self.articleList = res.data.data.res_limit;
             self.total = res.data.data.total;
@@ -171,7 +169,7 @@ export default {
           }
         })
         .catch((e) => {
-           loading.close();
+          this.$endLoading();
           console.log(e);
         });
     },
