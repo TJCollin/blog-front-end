@@ -6,6 +6,19 @@
   </div>
 </template>
 
+<script>
+export default {
+     mouted(){
+       const loaderwrapper = document.getelementbyid('loaderwrapper');
+       const preloader = document.getelementbyid('preloader');
+        const circle = document.getelementbyid('circle');
+        loaderwrapper.style.display = 'none';
+      }
+
+
+}
+</script>
+
 <style lang="scss">
 @import url(./assets/init.css);
 #app {
@@ -21,6 +34,6 @@
 
 .slide-left-enter,
 .slide-left-leave-to {
-  transform: translateX(-100%);
+  transform: translatex(-100%);
 }
 </style>
