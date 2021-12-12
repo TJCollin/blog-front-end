@@ -43,7 +43,7 @@
     </div>
     <div class="footer" :class="getFooterFixed ? 'footer-fixed' : ''">
       <p>
-        &copy;2018-
+        &copy;2018-present
         <a href="https://github.com/TJCollinZhang">Collin的博客</a>
         Powered by Vue & Koa
       </p>
