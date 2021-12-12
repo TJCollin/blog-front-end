@@ -240,8 +240,8 @@ export default {
         })
         .then((res) => {
           if (!res.data.code) {
-            self.projectList = res.data.result.res_limit;
-            self.totalProjects = res.data.result.total;
+            self.projectList = res.data.data.res_limit;
+            self.totalProjects = res.data.data.total;
           } else {
             self.$message.error(res.data.message);
           }
