@@ -1,21 +1,19 @@
 <template>
   <div id="app">
     <transition name="slide-left">
-      <router-view />
+      <keep-alive> <router-view /></keep-alive>
     </transition>
   </div>
 </template>
 
 <script>
 export default {
-     mounted(){
-       const loaderwrapper = document.getElementById('loaderWrapper');
+  mounted() {
+    const loaderwrapper = document.getElementById("loaderWrapper");
 
-        loaderwrapper.style.display = 'none';
-      }
-
-
-}
+    loaderwrapper.style.display = "none";
+  },
+};
 </script>
 
 <style lang="scss">
