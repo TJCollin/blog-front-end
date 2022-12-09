@@ -16,7 +16,7 @@
   "devDependencies": {
     "vue-baidu-map": "^0.21.22",
     "axios": "^0.24.0",
-    "qs": "^6.10.1",
+    "qs": "^6.10.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
